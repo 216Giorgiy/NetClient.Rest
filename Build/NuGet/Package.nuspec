@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Repository.NET-RestApi</id>
+    <id>NetClient.Rest</id>
     <version>0.0.0</version>
     <authors>Scott Keith Thomas, Jr.</authors>
-    <description>A Respository.NET implementation supporting REST APIs.</description>
-    <tags>api async asynchronous generic repository rest restful</tags>
-    <iconUrl>https://raw.githubusercontent.com/skthomasjr/Repository.RestApi/master/Build/NuGet/Package.png</iconUrl>
-    <licenseUrl>https://raw.githubusercontent.com/skthomasjr/Repository.RestApi/master/LICENSE.md</licenseUrl>
-    <projectUrl>https://github.com/skthomasjr/Repository.NET-RestApi</projectUrl>
+    <description>A NetClient implementation supporting REST APIs.</description>
+    <tags>async asynchronous generic http net client api service rest restful</tags>
+    <iconUrl>https://raw.githubusercontent.com/skthomasjr/NetClient.Rest/master/Build/NuGet/Package.png</iconUrl>
+    <licenseUrl>https://raw.githubusercontent.com/skthomasjr/NetClient.Rest/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/skthomasjr/NetClient.Rest</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-	<dependencies>
+      <dependencies>
       <dependency id="Microsoft.Net.Http" version="1.0.0" />
       <dependency id="Newtonsoft.Json" version="1.0.0" />
       <dependency id="Repository.NET" version="1.0.0" />

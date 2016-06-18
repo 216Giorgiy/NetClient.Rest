@@ -6,3 +6,5 @@
 [![NuGet](https://img.shields.io/nuget/v/Repository.RestApi.svg)](https://www.nuget.org/packages/Repository.RestApi)
 [![License](https://img.shields.io/github/license/skthomasjr/Repository.RestApi.svg?maxAge=2592000)](LICENSE.md)
 [![Author](https://img.shields.io/badge/author-Scott%20K.%20Thomas%2C%20Jr.-blue.svg?maxAge=2592000)](https://www.linkedin.com/in/skthomasjr)
+
+A NetClient implementation supporting REST APIs.

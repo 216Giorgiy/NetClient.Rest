@@ -1,4 +1,4 @@
-# NetClient.Rest [Alpha]
+# NetClient.Rest [ alpha ]
 
 [![Build](https://ci.appveyor.com/api/projects/status/r6t2rvc0qru109ni?svg=true)](https://ci.appveyor.com/project/skthomasjr/netclient-rest)
 [![Release](https://img.shields.io/github/release/skthomasjr/NetClient.Rest.svg?maxAge=2592000)](https://github.com/skthomasjr/NetClient.Rest/releases)

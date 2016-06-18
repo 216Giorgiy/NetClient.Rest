@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Repository.RestApi.TestConsole")]
-[assembly: AssemblyDescription("Repository.RestApi test console.")]
+[assembly: AssemblyTitle("NetClient.Rest.TestConsole")]
+[assembly: AssemblyDescription("NetClient.Rest test console.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Scott Keith Thomas, Jr.")]
-[assembly: AssemblyProduct("Repository.RestApi.TestConsole")]
+[assembly: AssemblyProduct("NetClient.Rest.TestConsole")]
 [assembly: AssemblyCopyright("Copyright © 2016 Scott Keith Thomas, Jr.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

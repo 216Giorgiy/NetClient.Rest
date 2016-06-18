@@ -6,13 +6,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using Newtonsoft.Json;
 
-namespace Repository.RestApi
+namespace NetClient.Rest
 {
-    public class RestApiSet<T> : ObservableCollection<T>, ISet<T>
+    public class RestSet<T> : ObservableCollection<T>, ISet<T>
     {
-        public RestApiSet(Uri baseUri, string pathTemplate, JsonSerializerSettings serializerSettings, Expression expression = null)
+        public RestSet(Uri baseUri, string pathTemplate, JsonSerializerSettings serializerSettings, Expression expression = null)
         {
-            Provider = new RestApiQueryProvider<T>(baseUri, pathTemplate, serializerSettings);
+            Provider = new RestQueryProvider<T>(baseUri, pathTemplate, serializerSettings);
             Expression = expression ?? Expression.Constant(this);
         }
 

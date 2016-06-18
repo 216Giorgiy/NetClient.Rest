@@ -3,28 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Repository.RestApi", "Repository.RestApi\Repository.RestApi.shproj", "{368D9B80-F616-42AA-9A86-AA95EDE82610}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "NetClient.Rest", "NetClient.Rest\NetClient.Rest.shproj", "{368D9B80-F616-42AA-9A86-AA95EDE82610}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository.RestApi.Net461", "Repository.RestApi.Net461\Repository.RestApi.Net461.csproj", "{82431E28-C7D1-43E8-8D72-A86B716B4DF1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetClient.Rest.Net461", "NetClient.Rest.Net461\NetClient.Rest.Net461.csproj", "{82431E28-C7D1-43E8-8D72-A86B716B4DF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository.RestApi.Net46", "Repository.RestApi.Net46\Repository.RestApi.Net46.csproj", "{2CB387B7-E0DE-45BE-B55E-E8CC0CF519E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetClient.Rest.Net46", "NetClient.Rest.Net46\NetClient.Rest.Net46.csproj", "{2CB387B7-E0DE-45BE-B55E-E8CC0CF519E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository.RestApi.Net45", "Repository.RestApi.Net45\Repository.RestApi.Net45.csproj", "{26AF2A6A-6093-44D0-8CF6-2828E0AF58A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetClient.Rest.Net45", "NetClient.Rest.Net45\NetClient.Rest.Net45.csproj", "{26AF2A6A-6093-44D0-8CF6-2828E0AF58A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository.RestApi.TestConsole", "Repository.RestApi.TestConsole\Repository.RestApi.TestConsole.csproj", "{FF31AF24-45AB-49D2-9961-3D5ABFDF9109}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{85DB65BB-B2AF-47ED-A1A8-642BB3F882CF}"
-	ProjectSection(SolutionItems) = preProject
-		..\Build\NuGet\PackageAndPush.cmd = ..\Build\NuGet\PackageAndPush.cmd
-		..\Build\NuGet\Working\Repository.NET-RestApi.nuspec = ..\Build\NuGet\Working\Repository.NET-RestApi.nuspec
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetClient.Rest.TestConsole", "NetClient.Rest.TestConsole\NetClient.Rest.TestConsole.csproj", "{FF31AF24-45AB-49D2-9961-3D5ABFDF9109}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Repository.RestApi\Repository.RestApi.projitems*{82431e28-c7d1-43e8-8d72-a86b716b4df1}*SharedItemsImports = 4
-		Repository.RestApi\Repository.RestApi.projitems*{2cb387b7-e0de-45be-b55e-e8cc0cf519e5}*SharedItemsImports = 4
-		Repository.RestApi\Repository.RestApi.projitems*{368d9b80-f616-42aa-9a86-aa95ede82610}*SharedItemsImports = 13
-		Repository.RestApi\Repository.RestApi.projitems*{26af2a6a-6093-44d0-8cf6-2828e0af58a0}*SharedItemsImports = 4
+		NetClient.Rest\NetClient.Rest.projitems*{82431e28-c7d1-43e8-8d72-a86b716b4df1}*SharedItemsImports = 4
+		NetClient.Rest\NetClient.Rest.projitems*{2cb387b7-e0de-45be-b55e-e8cc0cf519e5}*SharedItemsImports = 4
+		NetClient.Rest\NetClient.Rest.projitems*{368d9b80-f616-42aa-9a86-aa95ede82610}*SharedItemsImports = 13
+		NetClient.Rest\NetClient.Rest.projitems*{26af2a6a-6093-44d0-8cf6-2828e0af58a0}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

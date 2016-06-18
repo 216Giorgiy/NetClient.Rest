@@ -6,15 +6,15 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Repository.RestApi
+namespace NetClient.Rest
 {
-    public class RestApiQueryProvider<T> : IQueryProvider
+    public class RestQueryProvider<T> : IQueryProvider
     {
         private readonly Uri baseUri;
         private readonly string pathTemplate;
         private readonly JsonSerializerSettings serializerSettings;
 
-        public RestApiQueryProvider(Uri baseUri, string pathTemplate, JsonSerializerSettings serializerSettings)
+        public RestQueryProvider(Uri baseUri, string pathTemplate, JsonSerializerSettings serializerSettings)
         {
             this.baseUri = baseUri;
             this.pathTemplate = pathTemplate;
@@ -23,22 +23,22 @@ namespace Repository.RestApi
 
         public IQueryable CreateQuery(Expression expression)
         {
-            return new RestApiSet<T>(baseUri, pathTemplate, serializerSettings, expression);
+            return new RestSet<T>(baseUri, pathTemplate, serializerSettings, expression);
         }
 
         public IQueryable<TElement> CreateQuery<TElement>(Expression expression)
         {
-            return (IQueryable<TElement>)new RestApiSet<T>(baseUri, pathTemplate, serializerSettings, expression);
+            return (IQueryable<TElement>)new RestSet<T>(baseUri, pathTemplate, serializerSettings, expression);
         }
 
         public object Execute(Expression expression)
         {
-            return Execute<RestApiSet<T>>(expression);
+            return Execute<RestSet<T>>(expression);
         }
 
         public TResult Execute<TResult>(Expression expression)
         {
-            var resourceValues = new RestApiQueryTranslator().GetResourceValues(expression);
+            var resourceValues = new RestQueryTranslator().GetResourceValues(expression);
             var path = resourceValues.Aggregate(pathTemplate, (current, resourceValue) => current.Replace($"{{{resourceValue.Key}}}", resourceValue.Value.ToString()));
 
             var elements = new List<TestElement>

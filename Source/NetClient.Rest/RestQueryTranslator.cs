@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Repository.RestApi
+namespace NetClient.Rest
 {
-    internal class RestApiQueryTranslator : ExpressionVisitor
+    internal class RestQueryTranslator : ExpressionVisitor
     {
         private readonly IDictionary<string, object> resourceValues = new Dictionary<string, object>();
 

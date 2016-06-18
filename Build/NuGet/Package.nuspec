@@ -13,7 +13,7 @@
       <dependencies>
       <dependency id="Microsoft.Net.Http" version="1.0.0" />
       <dependency id="Newtonsoft.Json" version="1.0.0" />
-      <dependency id="Repository.NET" version="1.0.0" />
+      <dependency id="NetClient" version="1.0.0" />
     </dependencies>
   </metadata>
 </package>

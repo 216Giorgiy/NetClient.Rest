@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Repository.RestApi
+namespace NetClient.Rest
 {
     public interface ISet<out T> : IOrderedQueryable<T>
     {

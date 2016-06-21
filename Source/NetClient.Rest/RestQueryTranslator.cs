@@ -1,19 +1,22 @@
-﻿using System;
+﻿#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+
+#endregion
 
 namespace NetClient.Rest
 {
     internal class RestQueryTranslator : ExpressionVisitor
     {
+        #region fields and constants
+
         private readonly IDictionary<string, object> resourceValues = new Dictionary<string, object>();
 
-        internal IDictionary<string, object> GetResourceValues(Expression expression)
-        {
-            Visit(expression);
+        #endregion
 
-            return resourceValues;
-        }
+        #region methods and other members
 
         protected override Expression VisitBinary(BinaryExpression node)
         {
@@ -25,7 +28,8 @@ namespace NetClient.Rest
                     {
                         if (resourceValues.ContainsKey(name))
                         {
-                            throw new InvalidOperationException("A duplicate resource key was used in the query expression.");
+                            throw new InvalidOperationException(
+                                "A duplicate resource key was used in the query expression.");
                         }
                         resourceValues.Add(name, (node.Right as ConstantExpression)?.Value);
                     }
@@ -38,5 +42,14 @@ namespace NetClient.Rest
 
             return base.VisitBinary(node);
         }
+
+        internal IDictionary<string, object> GetResourceValues(Expression expression)
+        {
+            Visit(expression);
+
+            return resourceValues;
+        }
+
+        #endregion
     }
 }

@@ -41,20 +41,12 @@ namespace NetClient.Rest
             var resourceValues = new RestQueryTranslator().GetResourceValues(expression);
             var path = resourceValues.Aggregate(pathTemplate, (current, resourceValue) => current.Replace($"{{{resourceValue.Key}}}", resourceValue.Value.ToString()));
 
-            var elements = new List<TestElement>
-            {
-                new TestElement { Id = 1, Name = "111", Sort = 10 },
-                new TestElement { Id = 2, Name = "222", Sort = 20 },
-                new TestElement { Id = 3, Name = "333", Sort = 30 },
-            }.AsQueryable();
-
             var requestUri = new Uri($"{baseUri.AbsoluteUri}{path}");
             var result = default(TResult);
             GetAsync<TResult>(requestUri).ContinueWith(task =>
             {
                 result = task.Result;
             }).Wait();
-
             return result;
         }
 
@@ -70,13 +62,13 @@ namespace NetClient.Rest
                         using (var content = response.Content)
                         {
                             var json = await content.ReadAsStringAsync();
-                            result = JsonConvert.DeserializeObject<TResult>(json, serializerSettings);
+                            result = JsonConvert.DeserializeObject<TResult>($"[{json}]", serializerSettings);
                         }
                     }
                 }
                 return result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return default(TResult);
             }

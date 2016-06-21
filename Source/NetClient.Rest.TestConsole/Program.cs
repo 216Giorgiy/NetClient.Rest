@@ -7,12 +7,12 @@ namespace NetClient.Rest.TestConsole
     {
         static void Main(string[] args)
         {
-            var client = new RestClient();
-            var elements = from element in client.Test1 where element.Id == 2 select element;
+            var client = new TestRestClient();
+            var elements = from rawBlock in client.RawBlocks where rawBlock.Block_Index == 417260 select rawBlock;
 
             foreach (var element in elements)
             {
-                Console.WriteLine(element.Id);
+                Console.WriteLine(element.Block_Index);
             }
         }
     }

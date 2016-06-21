@@ -1,9 +1,8 @@
-#region using directives
+﻿#region using directives
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using Newtonsoft.Json;
@@ -12,13 +11,13 @@ using Newtonsoft.Json;
 
 namespace NetClient.Rest
 {
-    public class RestSet<T> : ObservableCollection<T>, ISet<T>
+    public class Element<T> : IElement<T>
     {
         #region constructors
 
-        public RestSet(Uri baseUri, string pathTemplate, JsonSerializerSettings serializerSettings, Expression expression = null)
+        public Element(Uri baseUri, string pathTemplate, JsonSerializerSettings serializerSettings, Expression expression = null)
         {
-            Provider = new RestQueryProvider<T>(baseUri, pathTemplate, serializerSettings);
+            Provider = new ElementQueryProvider<T>(baseUri, pathTemplate, serializerSettings);
             Expression = expression ?? Expression.Constant(this);
         }
 
@@ -38,14 +37,14 @@ namespace NetClient.Rest
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return Provider.Execute<IEnumerable<T>>(Expression).GetEnumerator();
         }
 
         #endregion
 
         #region implementations for IEnumerable<T>
 
-        public new IEnumerator<T> GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
         {
             return Provider.Execute<IEnumerable<T>>(Expression).GetEnumerator();
         }

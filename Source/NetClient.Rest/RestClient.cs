@@ -1,10 +1,16 @@
-﻿using System;
-using Newtonsoft.Json;
-
-namespace NetClient.Rest
+﻿namespace NetClient.Rest
 {
-    public class RestClient
+    /// <summary>
+    /// Class RestClient.
+    /// </summary>
+    public abstract class RestClient
     {
-        public ISet<TestElement> Test1 { get; } = new RestSet<TestElement>(new Uri("https://blockchain.info"), "/rawblock/{Id}", new JsonSerializerSettings());
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RestClient"/> class.
+        /// </summary>
+        protected RestClient()
+        {
+            
+        }
     }
 }

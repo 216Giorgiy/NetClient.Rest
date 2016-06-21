@@ -15,9 +15,10 @@ namespace NetClient.Rest
     {
         #region constructors
 
-        public Element(Uri baseUri, string pathTemplate, JsonSerializerSettings serializerSettings, Expression expression = null)
+        public Element(Uri baseUri, string pathTemplate, JsonSerializerSettings serializerSettings,
+            Expression expression = null)
         {
-            Provider = new ElementQueryProvider<T>(baseUri, pathTemplate, serializerSettings);
+            Provider = new RestQueryProvider<T>(baseUri, pathTemplate, serializerSettings);
             Expression = expression ?? Expression.Constant(this);
         }
 

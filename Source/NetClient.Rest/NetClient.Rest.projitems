@@ -11,12 +11,10 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Element.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IElement.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ISet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestQueryTranslator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestQueryProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RestSet.cs" />
   </ItemGroup>
 </Project>

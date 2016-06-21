@@ -7,13 +7,12 @@ namespace NetClient.Rest.TestConsole
     {
         static void Main(string[] args)
         {
-            var client = new TestRestClient();
-            var elements = from rawBlock in client.RawBlocks where rawBlock.Block_Index == 417260 select rawBlock;
+            var client = new BlockchainClient();
+            var rawBlocks = from r in client.RawBlocks where r.Block_Index == 417260 select r;
+            var rawBlock = rawBlocks.ToArray().SingleOrDefault();
 
-            foreach (var element in elements)
-            {
-                Console.WriteLine(element.Block_Index);
-            }
+            Console.WriteLine(rawBlock?.Block_Index);
+            Console.ReadKey();
         }
     }
 }

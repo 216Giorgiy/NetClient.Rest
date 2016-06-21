@@ -46,8 +46,8 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestElement.cs" />
-    <Compile Include="TestRestClient.cs" />
+    <Compile Include="RawBlock.cs" />
+    <Compile Include="BlockchainClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

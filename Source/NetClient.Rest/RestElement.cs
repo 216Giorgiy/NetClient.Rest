@@ -11,12 +11,11 @@ using Newtonsoft.Json;
 
 namespace NetClient.Rest
 {
-    public class Element<T> : IElement<T>
+    public class RestElement<T> : IElement<T>
     {
         #region constructors
 
-        public Element(Uri baseUri, string pathTemplate, JsonSerializerSettings serializerSettings,
-            Expression expression = null)
+        public RestElement(Uri baseUri, string pathTemplate, JsonSerializerSettings serializerSettings, Expression expression = null)
         {
             Provider = new RestQueryProvider<T>(baseUri, pathTemplate, serializerSettings);
             Expression = expression ?? Expression.Constant(this);

@@ -1,9 +1,6 @@
 ﻿namespace NetClient.Rest.TestConsole
 {
-    /// <summary>
-    /// Class TestElement.
-    /// </summary>
-    public class TestElement
+    public class RawBlock
     {
         #region properties and indexers
 

@@ -13,6 +13,7 @@ namespace NetClient.Rest
 
         private readonly Uri baseUri;
         private readonly string pathTemplate;
+        private readonly string callerMemberName;
         private readonly JsonSerializerSettings serializerSettings;
 
         #endregion
@@ -48,7 +49,7 @@ namespace NetClient.Rest
                 }
                 return result;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return default(TResult);
             }
@@ -60,24 +61,23 @@ namespace NetClient.Rest
 
         public IQueryable CreateQuery(Expression expression)
         {
-            return new Element<T>(baseUri, pathTemplate, serializerSettings, expression);
+            return new RestElement<T>(baseUri, pathTemplate, serializerSettings, expression);
         }
 
         public IQueryable<TElement> CreateQuery<TElement>(Expression expression)
         {
-            return (IQueryable<TElement>) new Element<T>(baseUri, pathTemplate, serializerSettings, expression);
+            return (IQueryable<TElement>)new RestElement<T>(baseUri, pathTemplate, serializerSettings, expression);
         }
 
         public object Execute(Expression expression)
         {
-            return Execute<Element<T>>(expression);
+            return Execute<RestElement<T>>(expression);
         }
 
         public TResult Execute<TResult>(Expression expression)
         {
             var resourceValues = new RestQueryTranslator().GetResourceValues(expression);
-            var path = resourceValues.Aggregate(pathTemplate,
-                (current, resourceValue) => current.Replace($"{{{resourceValue.Key}}}", resourceValue.Value.ToString()));
+            var path = resourceValues.Aggregate(pathTemplate, (current, resourceValue) => current.Replace($"{{{resourceValue.Key}}}", resourceValue.Value.ToString()));
 
             var requestUri = new Uri($"{baseUri.AbsoluteUri}{path}");
             var result = default(TResult);

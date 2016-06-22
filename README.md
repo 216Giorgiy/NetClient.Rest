@@ -9,7 +9,7 @@
 
 A NetClient implementation supporting REST APIs. Note: Add, edit, and delete functionality is coming soon.
 
-Create a class that models the return data.
+Create a class that models the return data. Support for JsonSerializationSettings is built-in for more precise control of how data is serialized and deserialized.
 ```c#
 public class RawBlock
 {

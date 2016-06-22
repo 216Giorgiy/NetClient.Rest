@@ -16,7 +16,7 @@ namespace NetClient.Rest.TestConsole
         {
             var client = new BlockchainClient
             {
-                RawBlocks = {OnError = ex => Console.WriteLine(ex.Message)}
+                RawBlocks = { OnError = ex => Console.WriteLine(ex.Message) }
             };
 
             var rawBlocks = from r in client.RawBlocks where r.Block_Index == 417260 select r;

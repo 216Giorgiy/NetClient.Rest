@@ -14,13 +14,13 @@ namespace NetClient.Rest
         /// <param name="type">The type.</param>
         public SerializerSettingsAttribute(Type type)
         {
-            Settings = Activator.CreateInstance(type) as JsonSerializerSettings;
+            SerializerSettings = Activator.CreateInstance(type) as JsonSerializerSettings;
         }
 
         /// <summary>
-        ///     Gets the settings.
+        /// Gets the serializer settings.
         /// </summary>
-        /// <value>The settings.</value>
-        public JsonSerializerSettings Settings { get; }
+        /// <value>The serializer settings.</value>
+        public JsonSerializerSettings SerializerSettings { get; }
     }
 }

@@ -43,38 +43,36 @@ namespace NetClient.Rest
                 return result;
             }
 
-            try
+            var path = resourceValues.Aggregate(Resource.RouteTemplate, (current, resourceValue) => current.Replace($"{{{resourceValue.Key}}}", resourceValue.Value.ToString())).TrimStart('/');
+            if (path.Contains("{") && path.Contains("}"))
             {
-                var path = resourceValues.Aggregate(Resource.RouteTemplate, (current, resourceValue) => current.Replace($"{{{resourceValue.Key}}}", resourceValue.Value.ToString()));
-                var requestUri = new Uri($"{Resource.BaseUri.AbsoluteUri}{path}");
+                element.OnError?.Invoke(new InvalidOperationException($"Route resolution has failed for the route tempate: \"{path}\". Please ensure all route placeholders can be replaced by an expression criteria."));
+                return result;
+            }
 
-                using (var client = new HttpClient())
+            var requestUri = new Uri($"{Resource.BaseUri.AbsoluteUri}{path}");
+
+            using (var client = new HttpClient())
+            {
+                using (var response = await client.GetAsync(requestUri))
                 {
-                    using (var response = await client.GetAsync(requestUri))
+                    using (var content = response.Content)
                     {
-                        using (var content = response.Content)
-                        {
-                            var json = await content.ReadAsStringAsync();
-                            if (string.IsNullOrWhiteSpace(json)) return result;
+                        var json = await content.ReadAsStringAsync();
+                        if (string.IsNullOrWhiteSpace(json)) return result;
 
-                            if (Resource?.SerializerSettings == null)
-                            {
-                                result = JsonConvert.DeserializeObject<TResult>($"[{json}]");
-                            }
-                            else
-                            {
-                                result = JsonConvert.DeserializeObject<TResult>($"[{json}]", Resource.SerializerSettings);
-                            }
+                        if (Resource?.SerializerSettings == null)
+                        {
+                            result = JsonConvert.DeserializeObject<TResult>($"[{json}]");
+                        }
+                        else
+                        {
+                            result = JsonConvert.DeserializeObject<TResult>($"[{json}]", Resource.SerializerSettings);
                         }
                     }
                 }
-                return result;
             }
-            catch (Exception ex)
-            {
-                element.OnError?.Invoke(ex);
-                return result;
-            }
+            return result;
         }
 
         /// <summary>
@@ -95,7 +93,7 @@ namespace NetClient.Rest
         /// <returns>IQueryable&lt;TElement&gt;.</returns>
         public IQueryable<TElement> CreateQuery<TElement>(Expression expression)
         {
-            return (IQueryable<TElement>) new Resource<T>(element.Client, Resource.Property, element.OnError, expression);
+            return (IQueryable<TElement>)new Resource<T>(element.Client, Resource.Property, element.OnError, expression);
         }
 
         /// <summary>
@@ -123,6 +121,10 @@ namespace NetClient.Rest
                 if (task.IsCompleted && !task.IsFaulted)
                 {
                     result = task.Result;
+                }
+                else
+                {
+                    element.OnError?.Invoke(task.Exception);
                 }
             }).Wait();
 

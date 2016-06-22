@@ -14,6 +14,7 @@ namespace NetClient.Rest
     /// <typeparam name="T">The element type.</typeparam>
     public class Resource<T> : IElement<T>
     {
+        private Action<Exception> onError;
         private string routeTemplate;
         private JsonSerializerSettings serializerSettings;
 
@@ -148,6 +149,10 @@ namespace NetClient.Rest
         ///     Gets or sets the error action.
         /// </summary>
         /// <value>The error action.</value>
-        public Action<Exception> OnError { get; set; }
+        public Action<Exception> OnError
+        {
+            get { return onError ?? Client?.OnError; }
+            set { onError = value; }
+        }
     }
 }

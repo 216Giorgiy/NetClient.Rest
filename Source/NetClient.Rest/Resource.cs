@@ -35,6 +35,24 @@ namespace NetClient.Rest
         }
 
         /// <summary>
+        ///     Adds the item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        public void Add(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        ///     Deletes the item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        public void Delete(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         ///     Gets or sets the base URI.
         /// </summary>
         /// <value>The base URI.</value>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace NetClient.Rest
@@ -59,6 +60,15 @@ namespace NetClient.Rest
                 return attribute?.SerializerSettings;
             }
             set { serializerSettings = value; }
+        }
+
+        /// <summary>
+        ///     Saves the changes asynchronously.
+        /// </summary>
+        /// <returns>Task.</returns>
+        public Task SaveChangesAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

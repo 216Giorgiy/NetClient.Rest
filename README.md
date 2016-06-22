@@ -7,16 +7,9 @@
 [![Author](https://img.shields.io/badge/author-Scott%20K.%20Thomas%2C%20Jr.-blue.svg?maxAge=2592000)](https://www.linkedin.com/in/skthomasjr)
 [![Join the chat at https://gitter.im/skthomasjr/NetClient.Rest](https://badges.gitter.im/skthomasjr/NetClient.Rest.svg)](https://gitter.im/skthomasjr/NetClient.Rest?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-A NetClient implementation supporting REST APIs.
+A NetClient implementation supporting REST APIs. Note: Add, edit, and delete functionality is coming soon.
 
-```c#
-[BaseUri("https://blockchain.info")]
-public class BlockchainClient : RestClient
-{
-  [Route("/rawblock/{Block_Index}")]
-  public Resource<RawBlock> RawBlocks { get; set; }
-}
-```
+Create a class that models the return data.
 ```c#
 public class RawBlock
 {
@@ -25,6 +18,16 @@ public class RawBlock
   public string Hash { get; set; }
 }
 ```
+Create a client for the API you want to abstract.
+```c#
+[BaseUri("https://blockchain.info")]
+public class BlockchainClient : RestClient
+{
+  [Route("/rawblock/{Block_Index}")]
+  public Resource<RawBlock> RawBlocks { get; set; }
+}
+```
+Use linq syntax to interact with the API.
 ```c#
 private static void Main(string[] args)
 {

@@ -5,7 +5,7 @@ namespace NetClient.Rest
     /// <summary>
     ///     Specifies the base URI.
     /// </summary>
-    public class BaseUriAttribute : Attribute
+    public sealed class BaseUriAttribute : Attribute
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="BaseUriAttribute" /> class.

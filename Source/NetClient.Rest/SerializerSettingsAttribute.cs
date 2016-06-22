@@ -6,7 +6,7 @@ namespace NetClient.Rest
     /// <summary>
     ///     Specifies the JSON serialization settings.
     /// </summary>
-    public class SerializerSettingsAttribute : Attribute
+    public sealed class SerializerSettingsAttribute : Attribute
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="SerializerSettingsAttribute" /> class.

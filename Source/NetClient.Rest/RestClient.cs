@@ -4,9 +4,9 @@ using System.Reflection;
 namespace NetClient.Rest
 {
     /// <summary>
-    ///     The REST NetClient.
+    ///     Provides a base class for sending requests and receiving responses over network boundaries.
     /// </summary>
-    public abstract class RestClient
+    public abstract class RestClient : INetClient
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="RestClient" /> class.
@@ -24,7 +24,7 @@ namespace NetClient.Rest
                 var route = property.GetCustomAttribute<RouteAttribute>()?.Template;
                 // throw if no route
 
-                var element = Activator.CreateInstance(property.PropertyType, baseUri, route, serializerSettings, null);
+                var element = Activator.CreateInstance(property.PropertyType, this, baseUri, route, serializerSettings, null);
 
                 property.SetValue(this, element);
             }

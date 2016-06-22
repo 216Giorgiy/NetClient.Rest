@@ -8,21 +8,23 @@ using Newtonsoft.Json;
 namespace NetClient.Rest
 {
     /// <summary>
-    ///     Class RestElement.
+    ///     The RestClient Element.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The element type.</typeparam>
     public class RestElement<T> : IElement<T>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="RestElement{T}" /> class.
         /// </summary>
+        /// <param name="client">The client.</param>
         /// <param name="baseUri">The base URI.</param>
         /// <param name="routeTemplate">The route template.</param>
         /// <param name="serializerSettings">The serializer settings.</param>
         /// <param name="expression">The expression.</param>
-        public RestElement(Uri baseUri, string routeTemplate, JsonSerializerSettings serializerSettings, Expression expression = null)
+        public RestElement(INetClient client, Uri baseUri, string routeTemplate, JsonSerializerSettings serializerSettings, Expression expression = null)
         {
-            Provider = new RestQueryProvider<T>(baseUri, routeTemplate, serializerSettings);
+            Client = client;
+            Provider = new RestQueryProvider<T>(this, baseUri, routeTemplate, serializerSettings);
             Expression = expression ?? Expression.Constant(this);
         }
 
@@ -57,5 +59,17 @@ namespace NetClient.Rest
         {
             return Provider.Execute<IEnumerable<T>>(Expression).GetEnumerator();
         }
+
+        /// <summary>
+        ///     Gets the client.
+        /// </summary>
+        /// <value>The client.</value>
+        public INetClient Client { get; }
+
+        /// <summary>
+        ///     Gets or sets the error action.
+        /// </summary>
+        /// <value>The error action.</value>
+        public Action<Exception> OnError { get; set; }
     }
 }

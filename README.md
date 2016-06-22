@@ -8,3 +8,31 @@
 [![Join the chat at https://gitter.im/skthomasjr/NetClient.Rest](https://badges.gitter.im/skthomasjr/NetClient.Rest.svg)](https://gitter.im/skthomasjr/NetClient.Rest?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 A NetClient implementation supporting REST APIs.
+
+```c#
+[BaseUri("https://blockchain.info")]
+public class BlockchainClient : RestClient
+{
+  [Route("/rawblock/{Block_Index}")]
+  public Resource<RawBlock> RawBlocks { get; set; }
+}
+```
+```c#
+public class RawBlock
+{
+  public int Block_Index { get; set; }
+  
+  public string Hash { get; set; }
+}
+```
+```c#
+private static void Main(string[] args)
+{
+  var client = new BlockchainClient { OnError = ex => Console.WriteLine(ex.Message) };
+  var rawBlocks = from r in client.RawBlocks where r.Block_Index == 417260 select r;
+  var rawBlock = rawBlocks.ToArray().SingleOrDefault();
+  
+  Console.WriteLine(rawBlock?.Block_Index);
+  Console.ReadKey();
+}
+```

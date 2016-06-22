@@ -14,7 +14,6 @@ namespace NetClient.Rest
     /// <typeparam name="T">The element type.</typeparam>
     public class Resource<T> : IElement<T>
     {
-        private Uri baseUri;
         private string routeTemplate;
         private JsonSerializerSettings serializerSettings;
 
@@ -53,29 +52,9 @@ namespace NetClient.Rest
         }
 
         /// <summary>
-        ///     Gets or sets the base URI.
+        ///     Gets the base URI.
         /// </summary>
-        /// <value>The base URI.</value>
-        public Uri BaseUri
-        {
-            get
-            {
-                if (baseUri != null)
-                {
-                    return baseUri;
-                }
-
-                var attribute = Property.GetCustomAttributes(typeof(BaseUriAttribute), true).FirstOrDefault() as BaseUriAttribute;
-                if (attribute != null)
-                {
-                    return attribute.BaseUri;
-                }
-
-                var client = Client as RestClient;
-                return client?.BaseUri;
-            }
-            set { baseUri = value; }
-        }
+        public Uri BaseUri => (Client as RestClient)?.BaseUri;
 
         /// <summary>
         ///     Gets or sets the route template.

@@ -70,5 +70,11 @@ namespace NetClient.Rest
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        ///     Gets or sets the error action.
+        /// </summary>
+        /// <value>The error action.</value>
+        public Action<Exception> OnError { get; set; }
     }
 }

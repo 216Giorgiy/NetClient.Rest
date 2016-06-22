@@ -6,7 +6,8 @@ namespace NetClient.Rest.TestConsole
     ///     Blockchain.info client.
     /// </summary>
     /// <seealso cref="RestClient" />
-    [BaseUri("https://blockchain.info"), SerializerSettings(typeof(JsonSerializerSettings))]
+    [BaseUri("https://blockchain.info")]
+    [SerializerSettings(typeof(JsonSerializerSettings))]
     internal class BlockchainClient : RestClient
     {
         /// <summary>

@@ -33,11 +33,28 @@ namespace NetClient.Rest
             this.serializerSettings = serializerSettings;
         }
 
-        private async Task<TResult> GetAsync<TResult>(Uri requestUri)
+        private async Task<TResult> GetRestValueAsync<TResult>(Expression expression)
         {
+            var result = JsonConvert.DeserializeObject<TResult>($"[]");
+
+            var resourceValues = new RestQueryTranslator().GetResourceValues(expression);
+            if (string.IsNullOrWhiteSpace(pathTemplate))
+            {
+                element.OnError?.Invoke(new Exception("Oooops"));
+                return result;
+            }
+
+            if (baseUri == null)
+            {
+                element.OnError?.Invoke(new Exception("Oooops"));
+                return result;
+            }
+
             try
             {
-                TResult result;
+                var path = resourceValues.Aggregate(pathTemplate, (current, resourceValue) => current.Replace($"{{{resourceValue.Key}}}", resourceValue.Value.ToString()));
+                var requestUri = new Uri($"{baseUri.AbsoluteUri}{path}");
+
                 using (var client = new HttpClient())
                 {
                     using (var response = await client.GetAsync(requestUri))
@@ -45,6 +62,8 @@ namespace NetClient.Rest
                         using (var content = response.Content)
                         {
                             var json = await content.ReadAsStringAsync();
+                            if (string.IsNullOrWhiteSpace(json)) return result;
+
                             if (serializerSettings == null)
                             {
                                 result = JsonConvert.DeserializeObject<TResult>($"[{json}]");
@@ -61,8 +80,7 @@ namespace NetClient.Rest
             catch (Exception ex)
             {
                 element.OnError?.Invoke(ex);
-
-                return default(TResult);
+                return result;
             }
         }
 
@@ -73,7 +91,7 @@ namespace NetClient.Rest
         /// <returns>IQueryable.</returns>
         public IQueryable CreateQuery(Expression expression)
         {
-            return new RestElement<T>(element.Client, baseUri, pathTemplate, serializerSettings, expression);
+            return new RestElement<T>(element.Client, baseUri, pathTemplate, serializerSettings, element.OnError, expression);
         }
 
         /// <summary>
@@ -84,7 +102,7 @@ namespace NetClient.Rest
         /// <returns>IQueryable&lt;TElement&gt;.</returns>
         public IQueryable<TElement> CreateQuery<TElement>(Expression expression)
         {
-            return (IQueryable<TElement>) new RestElement<T>(element.Client, baseUri, pathTemplate, serializerSettings, expression);
+            return (IQueryable<TElement>) new RestElement<T>(element.Client, baseUri, pathTemplate, serializerSettings, element.OnError, expression);
         }
 
         /// <summary>
@@ -105,12 +123,15 @@ namespace NetClient.Rest
         /// <returns>TResult</returns>
         public TResult Execute<TResult>(Expression expression)
         {
-            var resourceValues = new RestQueryTranslator().GetResourceValues(expression);
-            var path = resourceValues.Aggregate(pathTemplate, (current, resourceValue) => current.Replace($"{{{resourceValue.Key}}}", resourceValue.Value.ToString()));
-
-            var requestUri = new Uri($"{baseUri.AbsoluteUri}{path}");
             var result = default(TResult);
-            GetAsync<TResult>(requestUri).ContinueWith(task => { result = task.Result; }).Wait();
+
+            GetRestValueAsync<TResult>(expression).ContinueWith(task =>
+            {
+                result = task.Result;
+                // Add code here
+
+            }).Wait();
+
             return result;
         }
     }

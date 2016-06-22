@@ -14,17 +14,19 @@ namespace NetClient.Rest
     public class RestElement<T> : IElement<T>
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="RestElement{T}" /> class.
+        /// Initializes a new instance of the <see cref="RestElement{T}" /> class.
         /// </summary>
         /// <param name="client">The client.</param>
         /// <param name="baseUri">The base URI.</param>
         /// <param name="routeTemplate">The route template.</param>
         /// <param name="serializerSettings">The serializer settings.</param>
+        /// <param name="onError">The on error.</param>
         /// <param name="expression">The expression.</param>
-        public RestElement(INetClient client, Uri baseUri, string routeTemplate, JsonSerializerSettings serializerSettings, Expression expression = null)
+        public RestElement(INetClient client, Uri baseUri, string routeTemplate, JsonSerializerSettings serializerSettings, Action<Exception> onError, Expression expression)
         {
             Client = client;
             Provider = new RestQueryProvider<T>(this, baseUri, routeTemplate, serializerSettings);
+            OnError = onError;
             Expression = expression ?? Expression.Constant(this);
         }
 

@@ -14,17 +14,12 @@ namespace NetClient.Rest
         protected RestClient()
         {
             var baseUri = GetType().GetCustomAttribute<BaseUriAttribute>()?.BaseUri;
-            // throw if no baseUri
-
             var serializerSettings = GetType().GetCustomAttribute<SerializerSettingsAttribute>()?.Settings;
-            // throw if no serializerSettings
 
             foreach (var property in GetType().GetProperties())
             {
                 var route = property.GetCustomAttribute<RouteAttribute>()?.Template;
-                // throw if no route
-
-                var element = Activator.CreateInstance(property.PropertyType, this, baseUri, route, serializerSettings, null);
+                var element = Activator.CreateInstance(property.PropertyType, this, baseUri, route, serializerSettings, null, null);
 
                 property.SetValue(this, element);
             }

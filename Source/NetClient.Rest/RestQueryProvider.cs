@@ -91,7 +91,7 @@ namespace NetClient.Rest
         /// <returns>IQueryable.</returns>
         public IQueryable CreateQuery(Expression expression)
         {
-            return new RestElement<T>(element.Client, baseUri, pathTemplate, serializerSettings, element.OnError, expression);
+            return new Resource<T>(element.Client, baseUri, pathTemplate, serializerSettings, element.OnError, expression);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace NetClient.Rest
         /// <returns>IQueryable&lt;TElement&gt;.</returns>
         public IQueryable<TElement> CreateQuery<TElement>(Expression expression)
         {
-            return (IQueryable<TElement>) new RestElement<T>(element.Client, baseUri, pathTemplate, serializerSettings, element.OnError, expression);
+            return (IQueryable<TElement>) new Resource<T>(element.Client, baseUri, pathTemplate, serializerSettings, element.OnError, expression);
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace NetClient.Rest
         /// <returns>System.Object.</returns>
         public object Execute(Expression expression)
         {
-            return Execute<RestElement<T>>(expression);
+            return Execute<Resource<T>>(expression);
         }
 
         /// <summary>

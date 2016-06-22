@@ -15,6 +15,6 @@ namespace NetClient.Rest.TestConsole
         /// </summary>
         /// <value>The raw blocks element.</value>
         [Route("/rawblock/{Block_Index}")]
-        public RestElement<RawBlock> RawBlocks { get; set; }
+        public Resource<RawBlock> RawBlocks { get; set; }
     }
 }

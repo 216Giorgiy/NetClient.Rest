@@ -11,10 +11,10 @@ namespace NetClient.Rest
     ///     The RestClient Element.
     /// </summary>
     /// <typeparam name="T">The element type.</typeparam>
-    public class RestElement<T> : IElement<T>
+    public class Resource<T> : IElement<T>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RestElement{T}" /> class.
+        /// Initializes a new instance of the <see cref="Resource{T}" /> class.
         /// </summary>
         /// <param name="client">The client.</param>
         /// <param name="baseUri">The base URI.</param>
@@ -22,7 +22,7 @@ namespace NetClient.Rest
         /// <param name="serializerSettings">The serializer settings.</param>
         /// <param name="onError">The on error.</param>
         /// <param name="expression">The expression.</param>
-        public RestElement(INetClient client, Uri baseUri, string routeTemplate, JsonSerializerSettings serializerSettings, Action<Exception> onError, Expression expression)
+        public Resource(INetClient client, Uri baseUri, string routeTemplate, JsonSerializerSettings serializerSettings, Action<Exception> onError, Expression expression)
         {
             Client = client;
             Provider = new RestQueryProvider<T>(this, baseUri, routeTemplate, serializerSettings);

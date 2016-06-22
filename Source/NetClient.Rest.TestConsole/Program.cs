@@ -3,9 +3,16 @@ using System.Linq;
 
 namespace NetClient.Rest.TestConsole
 {
-    class Program
+    /// <summary>
+    ///     The application entry class.
+    /// </summary>
+    internal class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        ///     Defines the entry point of the application.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
+        private static void Main(string[] args)
         {
             var client = new BlockchainClient();
             var rawBlocks = from r in client.RawBlocks where r.Block_Index == 417260 select r;

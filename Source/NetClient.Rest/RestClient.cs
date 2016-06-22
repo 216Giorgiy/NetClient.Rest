@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Reflection;
-using NetClient.Rest.TestConsole;
 
 namespace NetClient.Rest
 {
     /// <summary>
-    ///     Class RestClient.
+    ///     The REST NetClient.
     /// </summary>
     public abstract class RestClient
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="RestClient" /> class.
+        /// </summary>
         protected RestClient()
         {
             var baseUri = GetType().GetCustomAttribute<BaseUriAttribute>()?.BaseUri;

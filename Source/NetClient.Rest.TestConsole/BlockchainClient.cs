@@ -8,14 +8,13 @@ namespace NetClient.Rest.TestConsole
     /// </summary>
     /// <seealso cref="RestClient" />
     [BaseUri("https://blockchain.info")]
-    [SerializerSettings(typeof(JsonSerializerSettings))]
     public class BlockchainClient : RestClient
     {
         /// <summary>
         ///     Gets or sets the raw blocks element.
         /// </summary>
         /// <value>The raw blocks element.</value>
-        [Route("/rawblock/{Block_Index}")]
+        [Route("/rawblock/{Block_Index}", "/rawblock/{Hash}")]
         public Resource<RawBlock> RawBlocks { get; set; }
     }
 }

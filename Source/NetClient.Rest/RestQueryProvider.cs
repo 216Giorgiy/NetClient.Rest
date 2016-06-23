@@ -26,12 +26,17 @@ namespace NetClient.Rest
 
         private Resource<T> Resource => element as Resource<T>;
 
+        private bool ContainsPlaceHolder(string item)
+        {
+            return item.Contains("{") && item.Contains("}");
+        }
+
         private async Task<TResult> GetRestValueAsync<TResult>(Expression expression)
         {
             var result = JsonConvert.DeserializeObject<TResult>($"[]");
 
             var resourceValues = new RestQueryTranslator().GetResourceValues(expression);
-            if (string.IsNullOrWhiteSpace(Resource?.RouteTemplate))
+            if (Resource?.RouteTemplates == null || !Resource.RouteTemplates.Any())
             {
                 element.OnError?.Invoke(new InvalidOperationException("Unable to obtain a value from the service because a route was not specified."));
                 return result;
@@ -43,10 +48,20 @@ namespace NetClient.Rest
                 return result;
             }
 
-            var path = resourceValues.Aggregate(Resource.RouteTemplate, (current, resourceValue) => current.Replace($"{{{resourceValue.Key}}}", resourceValue.Value.ToString())).TrimStart('/');
-            if (path.Contains("{") && path.Contains("}"))
+            var path = string.Empty;
+            foreach (var template in Resource.RouteTemplates)
             {
-                element.OnError?.Invoke(new InvalidOperationException($"Route resolution has failed for the route tempate: \"{path}\". Please ensure all route placeholders can be replaced by an expression criteria."));
+                var possiblePath = resourceValues.Aggregate(template, (current, resourceValue) => current.Replace($"{{{resourceValue.Key}}}", resourceValue.Value.ToString())).TrimStart('/');
+                if (!ContainsPlaceHolder(possiblePath))
+                {
+                    path = possiblePath;
+                    break;
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                element.OnError?.Invoke(new InvalidOperationException($"Route resolution has failed. You probably failed to provide an appropriate route attribute with valid route templates."));
                 return result;
             }
 

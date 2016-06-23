@@ -23,9 +23,7 @@ namespace NetClient.Rest
             {
                 if (!property.PropertyType.IsGenericType || property.PropertyType.GetGenericTypeDefinition() != typeof(Resource<>)) continue;
 
-                var route = property.GetCustomAttribute<RouteAttribute>()?.Template;
                 var element = Activator.CreateInstance(property.PropertyType, this, property, null, null);
-
                 property.SetValue(this, element);
             }
         }

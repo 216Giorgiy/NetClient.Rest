@@ -15,7 +15,7 @@ namespace NetClient.Rest
     public class Resource<T> : IElement<T>
     {
         private Action<Exception> onError;
-        private string routeTemplate;
+        private string[] routeTemplates;
         private JsonSerializerSettings serializerSettings;
 
         /// <summary>
@@ -58,22 +58,31 @@ namespace NetClient.Rest
         public Uri BaseUri => (Client as RestClient)?.BaseUri;
 
         /// <summary>
-        ///     Gets or sets the route template.
+        ///     Gets or sets the route templates.
         /// </summary>
-        /// <value>The route template.</value>
-        public string RouteTemplate
+        /// <value>The route templates.</value>
+        public string[] RouteTemplates
         {
             get
             {
-                if (!string.IsNullOrWhiteSpace(routeTemplate))
+                if (routeTemplates != null && routeTemplates.Any())
                 {
-                    return routeTemplate;
+                    return routeTemplates;
                 }
 
-                var attribute = Property.GetCustomAttributes(typeof(RouteAttribute), true).FirstOrDefault() as RouteAttribute;
-                return attribute?.Template;
+                var routeAttributes = new List<string>();
+                var attributes = Property.GetCustomAttributes(typeof(RouteAttribute), true);
+                foreach (var attribute in attributes)
+                {
+                    var routeAttribute = attribute as RouteAttribute;
+                    if (routeAttribute != null)
+                    {
+                        routeAttributes.AddRange(routeAttribute.Templates);
+                    }
+                }
+                return routeAttributes.ToArray();
             }
-            set { routeTemplate = value; }
+            set { routeTemplates = value; }
         }
 
         /// <summary>

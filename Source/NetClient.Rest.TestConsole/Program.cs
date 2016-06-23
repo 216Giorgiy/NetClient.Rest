@@ -16,10 +16,14 @@ namespace NetClient.Rest.TestConsole
         {
             var client = new BlockchainClient { OnError = ex => Console.WriteLine(ex.Message) };
 
-            var rawBlocks = from r in client.RawBlocks where r.Block_Index == 417260 select r;
-            var rawBlock = rawBlocks.ToArray().SingleOrDefault();
+            var rawBlocksFromIndex = from r in client.RawBlocks where r.Block_Index == 417260 select r;
+            var rawBlockFromIndex = rawBlocksFromIndex.ToArray().SingleOrDefault();
+            Console.WriteLine($"Raw Block from Index: {rawBlockFromIndex?.Block_Index}");
 
-            Console.WriteLine(rawBlock?.Block_Index);
+            var rawBlocksFromHash = from r in client.RawBlocks where r.Hash == "0000000000000000444a4e81b64a9a43e9c1bc9be488a56aa0d2c0c7152939c5" select r;
+            var rawBlockFromHash = rawBlocksFromHash.ToArray().SingleOrDefault();
+            Console.WriteLine($"Raw Block from Hash: {rawBlockFromHash?.Block_Index}");
+
             Console.ReadKey();
         }
     }

@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace NetClient.Rest
 {
     /// <summary>
-    ///     The RestClient Element.
+    /// The RestClient Element.
     /// </summary>
     /// <typeparam name="T">The element type.</typeparam>
     public class Resource<T> : IElement<T>

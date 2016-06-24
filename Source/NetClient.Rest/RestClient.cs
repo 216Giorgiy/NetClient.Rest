@@ -21,7 +21,7 @@ namespace NetClient.Rest
         {
             foreach (var property in GetType().GetProperties())
             {
-                if (!property.PropertyType.IsGenericType || property.PropertyType.GetGenericTypeDefinition() != typeof(Resource<>)) continue;
+                if (!property.PropertyType.IsGenericType || (property.PropertyType.GetGenericTypeDefinition() != typeof(Resource<>) && property.PropertyType.GetGenericTypeDefinition() != typeof(Resource<,>))) continue;
 
                 var element = Activator.CreateInstance(property.PropertyType, this, property, null, null);
                 property.SetValue(this, element);

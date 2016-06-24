@@ -12,6 +12,31 @@ namespace NetClient.Rest
     /// The RestClient Element.
     /// </summary>
     /// <typeparam name="T">The element type.</typeparam>
+    /// <typeparam name="TCriteria">The criteria type.</typeparam>
+    public class Resource<T, TCriteria> : Resource<T>, IElement<T, TCriteria> where TCriteria : new()
+    {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Resource{T}" /> class.
+        /// </summary>
+        /// <param name="client">The client.</param>
+        /// <param name="property">The property.</param>
+        /// <param name="onError">The on error.</param>
+        /// <param name="expression">The expression.</param>
+        public Resource(INetClient client, PropertyInfo property, Action<Exception> onError, Expression expression) : base(client, property, onError, expression)
+        {
+        }
+
+        /// <summary>
+        ///     Gets the criteria.
+        /// </summary>
+        /// <value>The criteria.</value>
+        public TCriteria Criteria { get; }
+    }
+
+    /// <summary>
+    ///     The RestClient Element.
+    /// </summary>
+    /// <typeparam name="T">The element type.</typeparam>
     public class Resource<T> : IElement<T>
     {
         private Action<Exception> onError;
@@ -19,7 +44,7 @@ namespace NetClient.Rest
         private JsonSerializerSettings serializerSettings;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Resource{T}" /> class.
+        ///     Initializes a new instance of the <see cref="Resource{T}" /> class.
         /// </summary>
         /// <param name="client">The client.</param>
         /// <param name="property">The property.</param>
@@ -35,27 +60,15 @@ namespace NetClient.Rest
         }
 
         /// <summary>
-        ///     Adds the item.
-        /// </summary>
-        /// <param name="item">The item.</param>
-        public void Add(T item)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        ///     Deletes the item.
-        /// </summary>
-        /// <param name="item">The item.</param>
-        public void Delete(T item)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         ///     Gets the base URI.
         /// </summary>
         public Uri BaseUri => (Client as RestClient)?.BaseUri;
+
+        /// <summary>
+        ///     Gets or sets the property.
+        /// </summary>
+        /// <value>The property.</value>
+        public PropertyInfo Property { get; }
 
         /// <summary>
         ///     Gets or sets the route templates.
@@ -111,6 +124,24 @@ namespace NetClient.Rest
         }
 
         /// <summary>
+        ///     Adds the item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        public void Add(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        ///     Deletes the item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        public void Delete(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         ///     Gets the type of the element.
         /// </summary>
         /// <value>The type of the element.</value>
@@ -147,12 +178,6 @@ namespace NetClient.Rest
         /// </summary>
         /// <value>The client.</value>
         public INetClient Client { get; }
-
-        /// <summary>
-        /// Gets or sets the property.
-        /// </summary>
-        /// <value>The property.</value>
-        public PropertyInfo Property { get; }
 
         /// <summary>
         ///     Gets or sets the error action.

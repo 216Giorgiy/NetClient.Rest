@@ -7,7 +7,7 @@
 [![Author](https://img.shields.io/badge/author-Scott%20K.%20Thomas%2C%20Jr.-blue.svg?maxAge=2592000)](https://www.linkedin.com/in/skthomasjr)
 [![Join the chat at https://gitter.im/skthomasjr/NetClient.Rest](https://badges.gitter.im/skthomasjr/NetClient.Rest.svg)](https://gitter.im/skthomasjr/NetClient.Rest?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-A NetClient implementation supporting REST APIs. Note: Add, edit, and delete functionality is coming soon.
+A generic & asynchronous REST API client that allows you to make API calls using LINQ syntax. Note: Add, edit, and delete functionality is coming soon.
 
 Create a class that models the return data. Support for JsonSerializationSettings is built-in for more precise control of how data is serialized and deserialized.
 ```c#

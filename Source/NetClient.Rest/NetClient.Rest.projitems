@@ -9,12 +9,15 @@
     <Import_RootNamespace>NetClient.Rest</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ParameterAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BaseUriAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestQueryTranslator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestQueryProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ParametersAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RoutesAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RouteAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SerializerSettingsAttribute.cs" />
   </ItemGroup>

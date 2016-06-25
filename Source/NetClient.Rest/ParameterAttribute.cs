@@ -7,16 +7,16 @@ using System.Runtime.CompilerServices;
 namespace NetClient.Rest
 {
     /// <summary>
-    ///     Specifies the route.
+    ///     Specifies the parameter.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    public sealed class RouteAttribute : Attribute
+    public sealed class ParameterAttribute : Attribute
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="RouteAttribute" /> class.
+        ///     Initializes a new instance of the <see cref="ParameterAttribute" /> class.
         /// </summary>
         /// <param name="template">The template.</param>
-        public RouteAttribute(string template)
+        public ParameterAttribute(string template)
         {
             Template = template;
         }
@@ -37,7 +37,7 @@ namespace NetClient.Rest
         {
             if (callerMemberName == null) throw new ArgumentNullException(nameof(callerMemberName));
 
-            var attributes = caller.GetType().GetProperty(callerMemberName).GetCustomAttributes<RouteAttribute>();
+            var attributes = caller.GetType().GetProperty(callerMemberName).GetCustomAttributes<ParameterAttribute>();
             return attributes.Select(attribute => attribute.Template).ToList();
         }
     }

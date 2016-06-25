@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
@@ -34,9 +35,11 @@ namespace NetClient.Rest
         private async Task<TResult> GetRestValueAsync<TResult>(Expression expression)
         {
             var result = JsonConvert.DeserializeObject<TResult>($"[]");
-
             var resourceValues = new RestQueryTranslator().GetResourceValues(expression);
-            if (Resource?.RouteTemplates == null || !Resource.RouteTemplates.Any())
+            var routeTemplates = Resource?.GetRouteTemplates();
+            var parameterTemplates = Resource?.GetParameterTemplates();
+
+            if (routeTemplates == null || !routeTemplates.Any())
             {
                 element.OnError?.Invoke(new InvalidOperationException("Unable to obtain a value from the service because a route was not specified."));
                 return result;
@@ -48,27 +51,30 @@ namespace NetClient.Rest
                 return result;
             }
 
-            var path = string.Empty;
-            foreach (var template in Resource.RouteTemplates)
-            {
-                var possiblePath = resourceValues.Aggregate(template, (current, resourceValue) => current.Replace($"{{{resourceValue.Key}}}", resourceValue.Value.ToString())).TrimStart('/');
-                if (!ContainsPlaceHolder(possiblePath))
-                {
-                    path = possiblePath;
-                    break;
-                }
-            }
-
+            // Calculate routes.
+            ReplacePlaceHolders(routeTemplates, resourceValues);
+            var path = routeTemplates.FirstOrDefault(r => !ContainsPlaceHolder(r));
             if (string.IsNullOrWhiteSpace(path))
             {
                 element.OnError?.Invoke(new InvalidOperationException($"Route resolution has failed. You probably failed to provide an appropriate route attribute with valid route templates."));
                 return result;
             }
 
-            var requestUri = new Uri($"{Resource.BaseUri.AbsoluteUri}{path}");
+            // Calculate parameters.
+            ReplacePlaceHolders(parameterTemplates, resourceValues);
+            var parameters = string.Empty;
+            parameters = parameterTemplates.Aggregate(parameters, (seed, accumulate) => ContainsPlaceHolder(accumulate) ? seed : $"{seed}&{accumulate}").TrimStart('&');
+
+            // Calculate the request URI.
+            var uriString = $"{Resource.BaseUri.AbsoluteUri}{path}";
+            if (!string.IsNullOrWhiteSpace(parameters))
+            {
+                uriString = $"{uriString}?{parameters}";
+            }
 
             using (var client = new HttpClient())
             {
+                var requestUri = new Uri(uriString);
                 using (var response = await client.GetAsync(requestUri))
                 {
                     using (var content = response.Content)
@@ -90,6 +96,14 @@ namespace NetClient.Rest
             return result;
         }
 
+        private void ReplacePlaceHolders(string[] source, IDictionary<string, object> resourceValues)
+        {
+            foreach (var index in Enumerable.Range(0, source.Length))
+            {
+                source[index] = resourceValues.Aggregate(source[index], (seed, accumulate) => seed.Replace($"{{{accumulate.Key}}}", accumulate.Value.ToString())).TrimStart('/');
+            }
+        }
+
         /// <summary>
         ///     Creates the query.
         /// </summary>
@@ -108,7 +122,7 @@ namespace NetClient.Rest
         /// <returns>IQueryable&lt;TElement&gt;.</returns>
         public IQueryable<TElement> CreateQuery<TElement>(Expression expression)
         {
-            return (IQueryable<TElement>)new Resource<T>(element.Client, Resource.Property, element.OnError, expression);
+            return (IQueryable<TElement>) new Resource<T>(element.Client, Resource.Property, element.OnError, expression);
         }
 
         /// <summary>

@@ -1,31 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace NetClient.Rest
 {
     /// <summary>
-    ///     Specifies the route.
+    ///     Specifies multiple routes.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    public sealed class RouteAttribute : Attribute
+    public sealed class RoutesAttribute : Attribute
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="RouteAttribute" /> class.
+        ///     Initializes a new instance of the <see cref="RoutesAttribute" /> class.
         /// </summary>
-        /// <param name="template">The template.</param>
-        public RouteAttribute(string template)
+        /// <param name="templates">The templates.</param>
+        public RoutesAttribute(params string[] templates)
         {
-            Template = template;
+            Templates = templates;
         }
 
         /// <summary>
-        ///     Gets the template.
+        ///     Gets the templates.
         /// </summary>
-        /// <value>The template.</value>
-        public string Template { get; }
+        /// <value>The templates.</value>
+        public string[] Templates { get; }
 
         /// <summary>
         ///     Gets the templates.
@@ -37,8 +36,13 @@ namespace NetClient.Rest
         {
             if (callerMemberName == null) throw new ArgumentNullException(nameof(callerMemberName));
 
-            var attributes = caller.GetType().GetProperty(callerMemberName).GetCustomAttributes<RouteAttribute>();
-            return attributes.Select(attribute => attribute.Template).ToList();
+            var attributes = caller.GetType().GetProperty(callerMemberName).GetCustomAttributes<RoutesAttribute>();
+            var templates = new List<string>();
+            foreach (var attribute in attributes)
+            {
+                templates.AddRange(attribute.Templates);
+            }
+            return templates;
         }
     }
 }

@@ -2,8 +2,8 @@
 {
     public class AddressCriteria
     {
-        public string Base58 { get; private set; }
+        public int Limit { get; }
 
-        public string Hash160 { get; private set; }
+        public int Offset { get; }
     }
 }

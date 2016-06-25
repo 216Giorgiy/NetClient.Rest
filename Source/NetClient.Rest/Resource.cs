@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 
 namespace NetClient.Rest
 {
     /// <summary>
-    /// The RestClient Element.
+    ///     The RestClient Element.
     /// </summary>
     /// <typeparam name="T">The element type.</typeparam>
     /// <typeparam name="TCriteria">The criteria type.</typeparam>
@@ -40,7 +41,6 @@ namespace NetClient.Rest
     public class Resource<T> : IElement<T>
     {
         private Action<Exception> onError;
-        private string[] routeTemplates;
         private JsonSerializerSettings serializerSettings;
 
         /// <summary>
@@ -69,34 +69,6 @@ namespace NetClient.Rest
         /// </summary>
         /// <value>The property.</value>
         public PropertyInfo Property { get; }
-
-        /// <summary>
-        ///     Gets or sets the route templates.
-        /// </summary>
-        /// <value>The route templates.</value>
-        public string[] RouteTemplates
-        {
-            get
-            {
-                if (routeTemplates != null && routeTemplates.Any())
-                {
-                    return routeTemplates;
-                }
-
-                var routeAttributes = new List<string>();
-                var attributes = Property.GetCustomAttributes(typeof(RouteAttribute), true);
-                foreach (var attribute in attributes)
-                {
-                    var routeAttribute = attribute as RouteAttribute;
-                    if (routeAttribute != null)
-                    {
-                        routeAttributes.AddRange(routeAttribute.Templates);
-                    }
-                }
-                return routeAttributes.ToArray();
-            }
-            set { routeTemplates = value; }
-        }
 
         /// <summary>
         ///     Gets or sets the serializer settings.
@@ -139,6 +111,45 @@ namespace NetClient.Rest
         public void Delete(T item)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        ///     Gets the parameter templates.
+        /// </summary>
+        /// <returns>System.String[].</returns>
+        public string[] GetParameterTemplates()
+        {
+            var templates = new List<string>();
+            templates.AddRange(ParameterAttribute.GetTemplates(Client, Property.Name));
+            templates.AddRange(ParametersAttribute.GetTemplates(Client, Property.Name));
+
+            return templates.ToArray();
+        }
+
+        /// <summary>
+        ///     Gets the parameter templates.
+        /// </summary>
+        /// <returns>System.String[].</returns>
+        public string[] GetParameterTemplates([CallerMemberName] string callerMemberName = null)
+        {
+            var templates = new List<string>();
+            templates.AddRange(ParameterAttribute.GetTemplates(Client, Property.Name));
+            templates.AddRange(ParametersAttribute.GetTemplates(Client, Property.Name));
+
+            return templates.ToArray();
+        }
+
+        /// <summary>
+        ///     Gets the route templates.
+        /// </summary>
+        /// <returns>System.String[].</returns>
+        public string[] GetRouteTemplates([CallerMemberName] string callerMemberName = null)
+        {
+            var templates = new List<string>();
+            templates.AddRange(RouteAttribute.GetTemplates(Client, Property.Name));
+            templates.AddRange(RoutesAttribute.GetTemplates(Client, Property.Name));
+
+            return templates.ToArray();
         }
 
         /// <summary>

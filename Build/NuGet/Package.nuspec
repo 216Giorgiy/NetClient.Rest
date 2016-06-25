@@ -4,7 +4,7 @@
     <id>NetClient.Rest</id>
     <version>0.0.0</version>
     <authors>Scott Keith Thomas, Jr.</authors>
-    <description>A generic & asynchronous REST API client that allows you to make API calls using LINQ syntax.</description>
+    <description>An asynchronous REST API client that allows you to make API calls using LINQ syntax.</description>
     <tags>async asynchronous generic http net client api service rest restful</tags>
     <iconUrl>https://raw.githubusercontent.com/skthomasjr/NetClient.Rest/master/Build/NuGet/Package.png</iconUrl>
     <licenseUrl>https://raw.githubusercontent.com/skthomasjr/NetClient.Rest/master/LICENSE.md</licenseUrl>

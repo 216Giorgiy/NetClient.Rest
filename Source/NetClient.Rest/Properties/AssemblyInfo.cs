@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("NetClient.Rest")]
-[assembly: AssemblyDescription("A generic & asynchronous REST API client that allows you to make API calls using LINQ syntax.")]
+[assembly: AssemblyDescription("An asynchronous REST API client that allows you to make API calls using LINQ syntax.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Scott Keith Thomas, Jr.")]
 [assembly: AssemblyProduct("NetClient.Rest")]

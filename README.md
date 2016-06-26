@@ -35,6 +35,8 @@ private static void Main(string[] args)
 {
   var client = new CustomerClient { OnError = ex => Console.WriteLine(ex.Message) };
   var customers = from c in client.Customers where c.CustomerId == 417260 select c;
+  
+  // API call is made at enumeration.
   var customer = customers.ToArray().SingleOrDefault();
   
   Console.WriteLine($"ID:   {customer?.CustomerId}");

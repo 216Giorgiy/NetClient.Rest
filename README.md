@@ -29,7 +29,7 @@ public class CustomerClient : RestClient
   //... add a property for each resource to support.
 }
 ```
-Use linq syntax to interact with the API.
+Use linq (query or method) syntax to interact with the API.
 ```c#
 private static void Main(string[] args)
 {

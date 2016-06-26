@@ -25,6 +25,8 @@ public class CustomerClient : RestClient
 {
   [Route("/customers/{CustomerId}")]
   public Resource<Customer> Customers { get; set; }
+  
+  //... add a property for each resource to support.
 }
 ```
 Use linq syntax to interact with the API.

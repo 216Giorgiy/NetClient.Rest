@@ -9,7 +9,7 @@ namespace NetClient.Rest
     /// <summary>
     ///     Specifies the route.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property, AllowMultiple = true)]
     public sealed class RouteAttribute : Attribute
     {
         /// <summary>

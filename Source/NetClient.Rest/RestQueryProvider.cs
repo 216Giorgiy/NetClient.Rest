@@ -14,7 +14,7 @@ namespace NetClient.Rest
     /// <typeparam name="T">The type of element to query.</typeparam>
     internal class RestQueryProvider<T> : IQueryProvider
     {
-        private readonly IElement<T> element;
+        private readonly Resource<T> resource;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="RestQueryProvider{T}" /> class.
@@ -22,10 +22,8 @@ namespace NetClient.Rest
         /// <param name="element">The element.</param>
         public RestQueryProvider(IElement<T> element)
         {
-            this.element = element;
+            resource = element as Resource<T>;
         }
-
-        private Resource<T> Resource => element as Resource<T>;
 
         private bool ContainsPlaceHolder(string item)
         {
@@ -34,20 +32,20 @@ namespace NetClient.Rest
 
         private async Task<TResult> GetRestValueAsync<TResult>(Expression expression)
         {
-            var result = JsonConvert.DeserializeObject<TResult>($"[]");
+            var result = JsonConvert.DeserializeObject<TResult>("[]");
             var resourceValues = new RestQueryTranslator().GetResourceValues(expression);
-            var routeTemplates = Resource?.GetRouteTemplates();
-            var parameterTemplates = Resource?.GetParameterTemplates();
+            var routeTemplates = resource?.Settings?.RouteTemplates;
+            var parameterTemplates = resource?.Settings?.ParameterTemplates;
 
             if (routeTemplates == null || !routeTemplates.Any())
             {
-                element.OnError?.Invoke(new InvalidOperationException("Unable to obtain a value from the service because a route was not specified."));
+                resource?.OnError?.Invoke(new InvalidOperationException("Unable to obtain a value from the service because a route was not specified."));
                 return result;
             }
 
-            if (Resource?.BaseUri == null)
+            if (resource?.Settings?.BaseUri == null)
             {
-                element.OnError?.Invoke(new InvalidOperationException("Unable to obtain a value from the service because a base URI was not specified."));
+                resource.OnError?.Invoke(new InvalidOperationException("Unable to obtain a value from the service because a base URI was not specified."));
                 return result;
             }
 
@@ -56,7 +54,7 @@ namespace NetClient.Rest
             var path = routeTemplates.FirstOrDefault(r => !ContainsPlaceHolder(r));
             if (string.IsNullOrWhiteSpace(path))
             {
-                element.OnError?.Invoke(new InvalidOperationException($"Route resolution has failed. You probably failed to provide an appropriate route attribute with valid route templates."));
+                resource.OnError?.Invoke(new InvalidOperationException("Route resolution has failed. You probably failed to provide an appropriate route attribute with valid route templates."));
                 return result;
             }
 
@@ -66,7 +64,7 @@ namespace NetClient.Rest
             parameters = parameterTemplates.Aggregate(parameters, (seed, accumulate) => ContainsPlaceHolder(accumulate) ? seed : $"{seed}&{accumulate}").TrimStart('&');
 
             // Calculate the request URI.
-            var uriString = $"{Resource.BaseUri.AbsoluteUri}{path}";
+            var uriString = $"{resource.Settings?.BaseUri.AbsoluteUri}{path}";
             if (!string.IsNullOrWhiteSpace(parameters))
             {
                 uriString = $"{uriString}?{parameters}";
@@ -82,23 +80,16 @@ namespace NetClient.Rest
                         var json = await content.ReadAsStringAsync();
                         if (string.IsNullOrWhiteSpace(json)) return result;
 
-                        if (Resource?.SerializerSettings == null)
-                        {
-                            result = JsonConvert.DeserializeObject<TResult>($"[{json}]");
-                        }
-                        else
-                        {
-                            result = JsonConvert.DeserializeObject<TResult>($"[{json}]", Resource.SerializerSettings);
-                        }
+                        result = JsonConvert.DeserializeObject<TResult>($"[{json}]", resource?.Settings?.SerializerSettings);
                     }
                 }
             }
             return result;
         }
 
-        private void ReplacePlaceHolders(string[] source, IDictionary<string, object> resourceValues)
+        private static void ReplacePlaceHolders(IList<string> source, IDictionary<string, object> resourceValues)
         {
-            foreach (var index in Enumerable.Range(0, source.Length))
+            foreach (var index in Enumerable.Range(0, source.Count))
             {
                 source[index] = resourceValues.Aggregate(source[index], (seed, accumulate) => seed.Replace($"{{{accumulate.Key}}}", accumulate.Value.ToString())).TrimStart('/');
             }
@@ -111,7 +102,7 @@ namespace NetClient.Rest
         /// <returns>IQueryable.</returns>
         public IQueryable CreateQuery(Expression expression)
         {
-            return new Resource<T>(element.Client, Resource.Property, element.OnError, expression);
+            return new Resource<T>(resource.Client, resource.Settings, resource.OnError, expression);
         }
 
         /// <summary>
@@ -122,7 +113,7 @@ namespace NetClient.Rest
         /// <returns>IQueryable&lt;TElement&gt;.</returns>
         public IQueryable<TElement> CreateQuery<TElement>(Expression expression)
         {
-            return (IQueryable<TElement>) new Resource<T>(element.Client, Resource.Property, element.OnError, expression);
+            return (IQueryable<TElement>) new Resource<T>(resource.Client, resource.Settings, resource.OnError, expression);
         }
 
         /// <summary>
@@ -143,7 +134,7 @@ namespace NetClient.Rest
         /// <returns>TResult</returns>
         public TResult Execute<TResult>(Expression expression)
         {
-            var result = JsonConvert.DeserializeObject<TResult>($"[]");
+            var result = JsonConvert.DeserializeObject<TResult>("[]");
 
             GetRestValueAsync<TResult>(expression).ContinueWith(task =>
             {
@@ -153,7 +144,7 @@ namespace NetClient.Rest
                 }
                 else
                 {
-                    element.OnError?.Invoke(task.Exception);
+                    resource.OnError?.Invoke(task.Exception);
                 }
             }).Wait();
 

@@ -8,7 +8,7 @@ namespace NetClient.Rest
     /// <summary>
     ///     Specifies multiple parameters.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property, AllowMultiple = true)]
     public sealed class ParametersAttribute : Attribute
     {
         /// <summary>

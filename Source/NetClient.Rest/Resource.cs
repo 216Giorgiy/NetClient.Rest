@@ -3,9 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using Newtonsoft.Json;
 
 namespace NetClient.Rest
 {
@@ -20,10 +17,25 @@ namespace NetClient.Rest
         ///     Initializes a new instance of the <see cref="Resource{T}" /> class.
         /// </summary>
         /// <param name="client">The client.</param>
-        /// <param name="property">The property.</param>
+        /// <param name="settings">The settings.</param>
         /// <param name="onError">The on error.</param>
         /// <param name="expression">The expression.</param>
-        public Resource(INetClient client, PropertyInfo property, Action<Exception> onError, Expression expression) : base(client, property, onError, expression)
+        public Resource(INetClient client, ResourceSettings settings, Action<Exception> onError, Expression expression) : base(client, settings, onError, expression)
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Resource{T}" /> class.
+        /// </summary>
+        /// <param name="settings">The settings.</param>
+        public Resource(ResourceSettings settings) : base(settings)
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Resource{T}" /> class.
+        /// </summary>
+        public Resource()
         {
         }
 
@@ -41,59 +53,53 @@ namespace NetClient.Rest
     public class Resource<T> : IElement<T>
     {
         private Action<Exception> onError;
-        private JsonSerializerSettings serializerSettings;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Resource{T}" /> class.
         /// </summary>
         /// <param name="client">The client.</param>
-        /// <param name="property">The property.</param>
+        /// <param name="settings">The settings.</param>
         /// <param name="onError">The on error.</param>
         /// <param name="expression">The expression.</param>
-        public Resource(INetClient client, PropertyInfo property, Action<Exception> onError, Expression expression)
+        public Resource(INetClient client, ResourceSettings settings, Action<Exception> onError, Expression expression)
         {
             Client = client;
-            Property = property;
+            Settings = settings;
             Provider = new RestQueryProvider<T>(this);
             OnError = onError;
             Expression = expression ?? Expression.Constant(this);
         }
 
         /// <summary>
-        ///     Gets the base URI.
+        ///     Initializes a new instance of the <see cref="Resource{T}" /> class.
         /// </summary>
-        public Uri BaseUri => (Client as RestClient)?.BaseUri;
-
-        /// <summary>
-        ///     Gets or sets the property.
-        /// </summary>
-        /// <value>The property.</value>
-        public PropertyInfo Property { get; }
-
-        /// <summary>
-        ///     Gets or sets the serializer settings.
-        /// </summary>
-        /// <value>The serializer settings.</value>
-        public JsonSerializerSettings SerializerSettings
+        /// <param name="settings">The settings.</param>
+        public Resource(ResourceSettings settings)
         {
-            get
-            {
-                if (serializerSettings != null)
-                {
-                    return serializerSettings;
-                }
-
-                var attribute = Property.GetCustomAttributes(typeof(SerializerSettingsAttribute), true).FirstOrDefault() as SerializerSettingsAttribute;
-                if (attribute != null)
-                {
-                    return attribute.SerializerSettings;
-                }
-
-                var client = Client as RestClient;
-                return client?.SerializerSettings;
-            }
-            set { serializerSettings = value; }
+            Settings = settings;
+            Provider = new RestQueryProvider<T>(this);
+            Expression = Expression.Constant(this);
         }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Resource{T}" /> class.
+        /// </summary>
+        public Resource()
+        {
+            if (Settings == null)
+            {
+                Settings = new ResourceSettings();
+            }
+            Settings.Configure(this);
+            Provider = new RestQueryProvider<T>(this);
+            Expression = Expression.Constant(this);
+        }
+
+        /// <summary>
+        ///     Gets or sets the settings.
+        /// </summary>
+        /// <value>The settings.</value>
+        public ResourceSettings Settings { get; set; }
 
         /// <summary>
         ///     Adds the item.
@@ -111,45 +117,6 @@ namespace NetClient.Rest
         public void Delete(T item)
         {
             throw new NotImplementedException();
-        }
-
-        /// <summary>
-        ///     Gets the parameter templates.
-        /// </summary>
-        /// <returns>System.String[].</returns>
-        public string[] GetParameterTemplates()
-        {
-            var templates = new List<string>();
-            templates.AddRange(ParameterAttribute.GetTemplates(Client, Property.Name));
-            templates.AddRange(ParametersAttribute.GetTemplates(Client, Property.Name));
-
-            return templates.ToArray();
-        }
-
-        /// <summary>
-        ///     Gets the parameter templates.
-        /// </summary>
-        /// <returns>System.String[].</returns>
-        public string[] GetParameterTemplates([CallerMemberName] string callerMemberName = null)
-        {
-            var templates = new List<string>();
-            templates.AddRange(ParameterAttribute.GetTemplates(Client, Property.Name));
-            templates.AddRange(ParametersAttribute.GetTemplates(Client, Property.Name));
-
-            return templates.ToArray();
-        }
-
-        /// <summary>
-        ///     Gets the route templates.
-        /// </summary>
-        /// <returns>System.String[].</returns>
-        public string[] GetRouteTemplates([CallerMemberName] string callerMemberName = null)
-        {
-            var templates = new List<string>();
-            templates.AddRange(RouteAttribute.GetTemplates(Client, Property.Name));
-            templates.AddRange(RoutesAttribute.GetTemplates(Client, Property.Name));
-
-            return templates.ToArray();
         }
 
         /// <summary>

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace NetClient.Rest
 {
@@ -11,9 +8,6 @@ namespace NetClient.Rest
     /// </summary>
     public abstract class RestClient : INetClient
     {
-        private Uri baseUri;
-        private JsonSerializerSettings serializerSettings;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="RestClient" /> class.
         /// </summary>
@@ -23,41 +17,12 @@ namespace NetClient.Rest
             {
                 if (!property.PropertyType.IsGenericType || (property.PropertyType.GetGenericTypeDefinition() != typeof(Resource<>) && property.PropertyType.GetGenericTypeDefinition() != typeof(Resource<,>))) continue;
 
-                var element = Activator.CreateInstance(property.PropertyType, this, property, null, null);
+                var settings = new ResourceSettings();
+                settings.Configure(this, property);
+
+                var element = Activator.CreateInstance(property.PropertyType, this, settings, null, null);
                 property.SetValue(this, element);
             }
-        }
-
-        /// <summary>
-        ///     Gets or sets the base URI.
-        /// </summary>
-        /// <value>The base URI.</value>
-        public Uri BaseUri
-        {
-            get
-            {
-                if (baseUri != null) return baseUri;
-
-                var attribute = GetType().GetCustomAttributes(typeof(BaseUriAttribute), true).FirstOrDefault() as BaseUriAttribute;
-                return attribute?.BaseUri;
-            }
-            set { baseUri = value; }
-        }
-
-        /// <summary>
-        ///     Gets or sets the serializer settings.
-        /// </summary>
-        /// <value>The serializer settings.</value>
-        public JsonSerializerSettings SerializerSettings
-        {
-            get
-            {
-                if (serializerSettings != null) return serializerSettings;
-
-                var attribute = GetType().GetCustomAttributes(typeof(SerializerSettingsAttribute), true).FirstOrDefault() as SerializerSettingsAttribute;
-                return attribute?.SerializerSettings;
-            }
-            set { serializerSettings = value; }
         }
 
         /// <summary>

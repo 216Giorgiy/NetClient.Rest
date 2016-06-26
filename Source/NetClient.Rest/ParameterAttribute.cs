@@ -9,7 +9,7 @@ namespace NetClient.Rest
     /// <summary>
     ///     Specifies the parameter.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property, AllowMultiple = true)]
     public sealed class ParameterAttribute : Attribute
     {
         /// <summary>

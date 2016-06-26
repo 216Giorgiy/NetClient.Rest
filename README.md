@@ -11,31 +11,33 @@ An asynchronous REST API client that allows you to make API calls using LINQ syn
 
 Create a class that models the return data. Support for JsonSerializationSettings is built-in for more precise control of how data is serialized and deserialized.
 ```c#
-public class RawBlock
+public class Customer
 {
-  public int Block_Index { get; set; }
+  public int CustomerId { get; set; }
   
-  public string Hash { get; set; }
+  public string Name { get; set; }
 }
 ```
 Create a client for the API you want to abstract.
 ```c#
-[BaseUri("https://blockchain.info")]
-public class BlockchainClient : RestClient
+[BaseUri("https://customer-api-server")]
+public class CustomerClient : RestClient
 {
-  [Route("/rawblock/{Block_Index}")]
-  public Resource<RawBlock> RawBlocks { get; set; }
+  [Route("/customers/{CustomerId}")]
+  public Resource<Customer> Customers { get; set; }
 }
 ```
 Use linq syntax to interact with the API.
 ```c#
 private static void Main(string[] args)
 {
-  var client = new BlockchainClient { OnError = ex => Console.WriteLine(ex.Message) };
-  var rawBlocks = from r in client.RawBlocks where r.Block_Index == 417260 select r;
-  var rawBlock = rawBlocks.ToArray().SingleOrDefault();
+  var client = new CustomerClient { OnError = ex => Console.WriteLine(ex.Message) };
+  var customers = from c in client.Customers where c.CustomerId == 417260 select c;
+  var customer = customers.ToArray().SingleOrDefault();
   
-  Console.WriteLine(rawBlock?.Block_Index);
+  Console.WriteLine($"ID:   {customer?.CustomerId}");
+  Console.WriteLine($"Name: {customer?.Name}");
   Console.ReadKey();
 }
 ```
+See the source code for more detailed sample.

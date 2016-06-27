@@ -5,11 +5,6 @@ namespace NetClient.Rest.TestConsole
 {
     internal class Program
     {
-        private static string GetIt()
-        {
-            return "1FW8KHjgtPTngKLHAw4YALtWoENsRpjt33";
-        }
-
         private static void Main(string[] args)
         {
             // The Resource class represents a resource in a REST-ful service API. Resource can be used in three
@@ -17,7 +12,7 @@ namespace NetClient.Rest.TestConsole
             // each of the three use cases.
             var demoType = DemoType.ApiClientResource;
 
-            IQueryable<Address> addresses = null;
+            IQueryable<Address> addresses;
 
             switch (demoType)
             {
@@ -27,9 +22,8 @@ namespace NetClient.Rest.TestConsole
                     // want to make available.
 
                     var client = new BlockchainClient { OnError = ex => Console.WriteLine(ex.Message) };
-                    var x = GetIt();
                     addresses = from a in client.Addresses
-                                    where a.Base58 == x &&
+                                    where a.Base58 == "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" &&
                                           client.Addresses.Criteria.Limit == 20 &&
                                           client.Addresses.Criteria.Offset == 100
                                     select a;
@@ -39,7 +33,7 @@ namespace NetClient.Rest.TestConsole
                     // Create a concrete resource without an API client. This allows decomposition down to the
                     // resource level and provides an injectable and mockable construct.
 
-                    addresses = from a in new AddressResource() where a.Base58 == "1FW8KHjgtPTngKLHAw4YALtWoENsRpjt33" select a;
+                    addresses = from a in new AddressResource() where a.Base58 == "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" select a;
 
                     break;
                 case DemoType.ConstructedResource:
@@ -51,7 +45,7 @@ namespace NetClient.Rest.TestConsole
                     settings.RouteTemplates.AddRange(new[] { "/rawaddr/{Base58}", "/rawaddr/{Hash160}" });
                     settings.ParameterTemplates.AddRange(new[] { "limit={Limit}", "offset={Offset}" });
 
-                    addresses = from a in new Resource<Address, AddressCriteria>(settings) where a.Base58 == "1FW8KHjgtPTngKLHAw4YALtWoENsRpjt33" select a;
+                    addresses = from a in new Resource<Address, AddressCriteria>(settings) where a.Base58 == "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" select a;
 
                     break;
                 default:
@@ -67,9 +61,9 @@ namespace NetClient.Rest.TestConsole
             Console.WriteLine($"  Hash160:  {address?.Hash160}");
             Console.ReadKey();
 
-            // Testing out root nodes.
+            //// Testing out root nodes.
             //var client1 = new BlockchainClient { OnError = ex => Console.WriteLine(ex.Message) };
-            //var x = client1.UnspentOutputs
+            //var unspentOutputs = client1.UnspentOutputs
             //    .Where(u => u.Address == "1FW8KHjgtPTngKLHAw4YALtWoENsRpjt33")
             //    .ToArray();
         }

@@ -33,6 +33,10 @@ namespace NetClient.Rest
                         {
                             throw new InvalidOperationException("A duplicate resource key was used in the query expression.");
                         }
+                        //var value = (node.Right as MemberExpression);
+                        //var y = x.Update();
+                        //var y = Expression.Lambda(x.Object).Compile().DynamicInvoke();
+                        //var y = x.Update(x.Object, x.Arguments);
                         resourceValues.Add(name, (node.Right as ConstantExpression)?.Value);
                     }
                     break;

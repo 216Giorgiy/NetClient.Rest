@@ -5,6 +5,11 @@ namespace NetClient.Rest.TestConsole
 {
     internal class Program
     {
+        private static string GetIt()
+        {
+            return "1FW8KHjgtPTngKLHAw4YALtWoENsRpjt33";
+        }
+
         private static void Main(string[] args)
         {
             // The Resource class represents a resource in a REST-ful service API. Resource can be used in three
@@ -22,8 +27,9 @@ namespace NetClient.Rest.TestConsole
                     // want to make available.
 
                     var client = new BlockchainClient { OnError = ex => Console.WriteLine(ex.Message) };
+                    var x = GetIt();
                     addresses = from a in client.Addresses
-                                    where a.Base58 == "1FW8KHjgtPTngKLHAw4YALtWoENsRpjt33" &&
+                                    where a.Base58 == x &&
                                           client.Addresses.Criteria.Limit == 20 &&
                                           client.Addresses.Criteria.Offset == 100
                                     select a;

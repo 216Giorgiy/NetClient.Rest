@@ -60,6 +60,12 @@ namespace NetClient.Rest.TestConsole
             Console.WriteLine($"  Base58:   {address?.Base58}");
             Console.WriteLine($"  Hash160:  {address?.Hash160}");
             Console.ReadKey();
+
+            // Testing out root nodes.
+            //var client1 = new BlockchainClient { OnError = ex => Console.WriteLine(ex.Message) };
+            //var x = client1.UnspentOutputs
+            //    .Where(u => u.Address == "1FW8KHjgtPTngKLHAw4YALtWoENsRpjt33")
+            //    .ToArray();
         }
     }
 }

@@ -1,10 +1,13 @@
 ﻿using System;
+using System.CodeDom;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace NetClient.Rest
 {
@@ -80,7 +83,19 @@ namespace NetClient.Rest
                         var json = await content.ReadAsStringAsync();
                         if (string.IsNullOrWhiteSpace(json)) return result;
 
-                        result = JsonConvert.DeserializeObject<TResult>($"[{json}]", resource?.Settings?.SerializerSettings);
+                        foreach (var node in resource.Settings.RootNode)
+                        {
+                            json = JToken.Parse(json)[node].ToString();
+                        }
+
+                        if (JToken.Parse(json).Type == JTokenType.Array)
+                        {
+                            result = JsonConvert.DeserializeObject<TResult>($"{json}", resource?.Settings?.SerializerSettings);
+                        }
+                        else
+                        {
+                            result = JsonConvert.DeserializeObject<TResult>($"[{json}]", resource?.Settings?.SerializerSettings);
+                        }
                     }
                 }
             }

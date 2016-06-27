@@ -24,6 +24,12 @@ namespace NetClient.Rest
         public List<string> ParameterTemplates { get; } = new List<string>();
 
         /// <summary>
+        ///     Gets the JSON root node path.
+        /// </summary>
+        /// <value>The root node path.</value>
+        public List<string> RootNode { get; } = new List<string>();
+
+        /// <summary>
         ///     Gets the route templates.
         /// </summary>
         /// <value>The route templates.</value>
@@ -44,28 +50,34 @@ namespace NetClient.Rest
         {
             if (BaseUri == null)
             {
-                var attribute = client.GetType().GetCustomAttributes(typeof(BaseUriAttribute), true).FirstOrDefault() as BaseUriAttribute;
+                var attribute = client.GetType().GetCustomAttributes<BaseUriAttribute>(true).FirstOrDefault();
                 BaseUri = attribute?.BaseUri;
             }
 
             if (BaseUri == null)
             {
-                var attribute = property.GetCustomAttributes(typeof(BaseUriAttribute), true).FirstOrDefault() as BaseUriAttribute;
+                var attribute = property.GetCustomAttributes<BaseUriAttribute>(true).FirstOrDefault();
                 BaseUri = attribute?.BaseUri;
             }
 
             if (SerializerSettings == null)
             {
-                var attribute = client.GetType().GetCustomAttributes(typeof(SerializerSettingsAttribute), true).FirstOrDefault() as SerializerSettingsAttribute;
+                var attribute = client.GetType().GetCustomAttributes<SerializerSettingsAttribute>(true).FirstOrDefault();
                 SerializerSettings = attribute?.SerializerSettings;
             }
 
             if (SerializerSettings == null)
             {
-                var attribute = property.GetCustomAttributes(typeof(SerializerSettingsAttribute), true).FirstOrDefault() as SerializerSettingsAttribute;
+                var attribute = property.GetCustomAttributes<SerializerSettingsAttribute>(true).FirstOrDefault();
                 SerializerSettings = attribute?.SerializerSettings;
             }
 
+            var rootNode = property.GetCustomAttributes<RootNodeAttribute>(true).FirstOrDefault()?.Nodes;
+            if (rootNode != null)
+            {
+                RootNode.AddRange(rootNode);
+            } ;
+            
             RouteTemplates.AddRange(RouteAttribute.GetTemplates(client, property.Name));
             RouteTemplates.AddRange(RoutesAttribute.GetTemplates(client, property.Name));
 

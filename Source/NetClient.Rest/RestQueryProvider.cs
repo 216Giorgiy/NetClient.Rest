@@ -59,9 +59,17 @@ namespace NetClient.Rest
 
         private async Task<TResult> GetRestValueAsync<TResult>(Expression expression)
         {
-            var result = JsonConvert.DeserializeObject<TResult>("[]");
-            var resourceValues = new RestQueryTranslator().GetResourceValues(expression);
+            var queryValues = new RestQueryTranslator().GetQueryValues(expression);
+            if (queryValues?.Criteria != null)
+            {
+                foreach (var criterion in queryValues.Criteria)
+                {
+                    if (resource?.Settings?.BaseUri != null) break;
 
+                }
+            }
+
+            var result = JsonConvert.DeserializeObject<TResult>("[]");
             if (resource?.Settings?.BaseUri == null)
             {
                 resource?.OnError?.Invoke(new InvalidOperationException("Unable to obtain data from the service because a base URI was not specified."));
@@ -74,8 +82,8 @@ namespace NetClient.Rest
                 return result;
             }
 
-            ReplaceTemplatePlaceHolders(resource?.Settings?.Routes, resourceValues);
-            ReplaceParameterPlaceHolders(resource?.Settings?.Routes, resourceValues);
+            ReplaceTemplatePlaceHolders(resource?.Settings?.Routes, queryValues.ResourceValues);
+            ReplaceParameterPlaceHolders(resource?.Settings?.Routes, queryValues.ResourceValues);
 
             var workingRoute = resource?.Settings?.Routes?.FirstOrDefault(r => r.Templates.Any(t => !ContainsPlaceHolder(t)));
 
@@ -143,7 +151,7 @@ namespace NetClient.Rest
         /// <returns>IQueryable&lt;TElement&gt;.</returns>
         public IQueryable<TElement> CreateQuery<TElement>(Expression expression)
         {
-            return (IQueryable<TElement>) new Resource<T>(resource.Client, resource.Settings, resource.OnError, expression);
+            return (IQueryable<TElement>)new Resource<T>(resource.Client, resource.Settings, resource.OnError, expression);
         }
 
         /// <summary>

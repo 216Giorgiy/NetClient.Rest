@@ -8,10 +8,10 @@ namespace NetClient.Rest.TestConsole
         private static void Main(string[] args)
         {
             // Testing out root nodes.
-            var client1 = new BlockchainClient { OnError = ex => Console.WriteLine(ex.Message) };
-            var unspentOutputs = client1.UnspentOutputs
-                .Where(u => u.Address == "1FW8KHjgtPTngKLHAw4YALtWoENsRpjt33")
-                .ToArray();
+            //var client1 = new BlockchainClient { OnError = ex => Console.WriteLine(ex.Message) };
+            //var unspentOutputs = client1.UnspentOutputs
+            //    .Where(u => u.Address == "1FW8KHjgtPTngKLHAw4YALtWoENsRpjt33")
+            //    .ToArray();
 
             // The Resource class represents a resource in a REST-ful service API. Resource can be used in three
             // ways depending on your requirements. Change the DemoType to exercise the demo code demonstrating
@@ -28,10 +28,15 @@ namespace NetClient.Rest.TestConsole
                     // want to make available.
 
                     var client = new BlockchainClient { OnError = ex => Console.WriteLine(ex.Message) };
+                    //addresses = from a in client.Addresses
+                    //                where a.Base58 == "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" &&
+                    //                      client.Addresses.Criteria.Limit == 20 &&
+                    //                      client.Addresses.Criteria.Offset == 100
+                    //                select a;                    //var client = new BlockchainClient { OnError = ex => Console.WriteLine(ex.Message) };
+
+                    //var addressCriteria = new AddressCriteria { Base58 = "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa", Limit = 20 };
                     addresses = from a in client.Addresses
-                                    where a.Base58 == "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" &&
-                                          client.Addresses.Criteria.Limit == 20 &&
-                                          client.Addresses.Criteria.Offset == 100
+                                    where new AddressCriteria("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa") != null
                                     select a;
 
                     break;

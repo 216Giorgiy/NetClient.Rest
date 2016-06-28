@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace NetClient.Rest
@@ -9,7 +8,7 @@ namespace NetClient.Rest
     /// </summary>
     internal class RestQueryTranslator : ExpressionVisitor
     {
-        private readonly IDictionary<string, object> resourceValues = new Dictionary<string, object>();
+        private readonly RestQueryValues queryValues = new RestQueryValues();
 
         /// <summary>
         ///     Translates binary nodes.
@@ -29,7 +28,7 @@ namespace NetClient.Rest
                     var name = (node.Left as MemberExpression)?.Member.Name;
                     if (!string.IsNullOrWhiteSpace(name))
                     {
-                        if (resourceValues.ContainsKey(name))
+                        if (queryValues.ResourceValues.ContainsKey(name))
                         {
                             throw new InvalidOperationException("A duplicate resource key was used in the query expression.");
                         }
@@ -41,16 +40,23 @@ namespace NetClient.Rest
                                 value = (node.Right as ConstantExpression)?.Value;
                                 break;
                             case ExpressionType.MemberAccess:
-                                var expression = Expression.Convert(node.Right, typeof(object));
-                                value = Expression.Lambda<Func<object>>(expression).Compile()();
+                                var equalExpression = Expression.Convert(node.Right, typeof(object));
+                                value = Expression.Lambda<Func<object>>(equalExpression).Compile()();
                                 break;
                             default:
                                 throw new InvalidOperationException("The expression type used is not supported.");
                         }
-                        resourceValues.Add(name, value);
+                        queryValues.ResourceValues.Add(name, value);
                     }
                     break;
                 case ExpressionType.AndAlso:
+                    break;
+                case ExpressionType.NotEqual:
+                    if ((node.Right as ConstantExpression)?.Value == null)
+                    {
+                        var notEqualExpression = Expression.Convert(node.Left, typeof(object));
+                        queryValues.Criteria.Add(Expression.Lambda<Func<object>>(notEqualExpression).Compile()());
+                    }
                     break;
                 default:
                     throw new InvalidOperationException("An invalid expression type was used in the query expression.");
@@ -60,14 +66,14 @@ namespace NetClient.Rest
         }
 
         /// <summary>
-        ///     Gets the resource values.
+        ///     Gets the query values.
         /// </summary>
         /// <param name="expression">The expression.</param>
         /// <returns>IDictionary&lt;System.String, System.Object&gt;.</returns>
-        internal IDictionary<string, object> GetResourceValues(Expression expression)
+        internal RestQueryValues GetQueryValues(Expression expression)
         {
             Visit(expression);
-            return resourceValues;
+            return queryValues;
         }
     }
 }

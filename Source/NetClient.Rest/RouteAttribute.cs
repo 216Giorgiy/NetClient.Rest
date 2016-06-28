@@ -41,8 +41,17 @@ namespace NetClient.Rest
         /// <param name="parameters">The parameters.</param>
         public RouteAttribute(string template, params string[] parameters)
         {
-            Route.Templates = new[] {template};
+            Route.Templates = new[] { template };
             Route.Parameters = parameters;
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="RouteAttribute" /> class.
+        /// </summary>
+        /// <param name="template">The template.</param>
+        public RouteAttribute(string template)
+        {
+            Route.Templates = new[] { template };
         }
 
         /// <summary>

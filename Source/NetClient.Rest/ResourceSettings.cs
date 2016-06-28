@@ -30,6 +30,12 @@ namespace NetClient.Rest
         public List<string> RootNode { get; } = new List<string>();
 
         /// <summary>
+        ///     Gets or sets the route.
+        /// </summary>
+        /// <value>The route.</value>
+        public Route Route { get; set; }
+
+        /// <summary>
         ///     Gets the route templates.
         /// </summary>
         /// <value>The route templates.</value>
@@ -76,8 +82,9 @@ namespace NetClient.Rest
             if (rootNode != null)
             {
                 RootNode.AddRange(rootNode);
-            } ;
-            
+            }
+            ;
+
             RouteTemplates.AddRange(RouteAttribute.GetTemplates(client, property.Name));
             RouteTemplates.AddRange(RoutesAttribute.GetTemplates(client, property.Name));
 

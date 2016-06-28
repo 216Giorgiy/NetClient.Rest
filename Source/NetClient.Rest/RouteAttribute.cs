@@ -12,6 +12,45 @@ namespace NetClient.Rest
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property, AllowMultiple = true)]
     public sealed class RouteAttribute : Attribute
     {
+        private readonly Route route = new Route();
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="RouteAttribute" /> class.
+        /// </summary>
+        /// <param name="template">The template.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="nodes">The nodes.</param>
+        public RouteAttribute(string template, string[] parameters = null, string[] nodes = null)
+        {
+            route.Templates = new[] { template };
+            route.Parameters = parameters;
+            route.Nodes = nodes;
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="RouteAttribute" /> class.
+        /// </summary>
+        /// <param name="template">The template.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="node">The node.</param>
+        public RouteAttribute(string template, string[] parameters = null, string node = null)
+        {
+            route.Templates = new[] { template };
+            route.Parameters = parameters;
+            route.Nodes = new[] { node };
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="RouteAttribute" /> class.
+        /// </summary>
+        /// <param name="template">The template.</param>
+        /// <param name="parameters">The parameters.</param>
+        public RouteAttribute(string template, params string[] parameters)
+        {
+            route.Templates = new[] { template };
+            route.Parameters = parameters;
+        }
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="RouteAttribute" /> class.
         /// </summary>

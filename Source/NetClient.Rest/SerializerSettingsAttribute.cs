@@ -19,7 +19,7 @@ namespace NetClient.Rest
         }
 
         /// <summary>
-        /// Gets the serializer settings.
+        ///     Gets the serializer settings.
         /// </summary>
         /// <value>The serializer settings.</value>
         public JsonSerializerSettings SerializerSettings { get; }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.CodeDom;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -28,6 +26,32 @@ namespace NetClient.Rest
             resource = element as Resource<T>;
         }
 
+        private static void ReplaceParameterPlaceHolders(IEnumerable<Route> routes, IDictionary<string, object> resourceValues)
+        {
+            foreach (var route in routes)
+            {
+                if (route.Parameters == null) continue;
+
+                foreach (var index in Enumerable.Range(0, route.Parameters.Length))
+                {
+                    route.Parameters[index] = resourceValues.Aggregate(route.Parameters[index], (seed, accumulate) => seed.Replace($"{{{accumulate.Key}}}", accumulate.Value.ToString())).TrimStart('/');
+                }
+            }
+        }
+
+        private static void ReplaceTemplatePlaceHolders(IEnumerable<Route> routes, IDictionary<string, object> resourceValues)
+        {
+            foreach (var route in routes)
+            {
+                if (route.Templates == null) continue;
+
+                foreach (var index in Enumerable.Range(0, route.Templates.Length))
+                {
+                    route.Templates[index] = resourceValues.Aggregate(route.Templates[index], (seed, accumulate) => seed.Replace($"{{{accumulate.Key}}}", accumulate.Value.ToString())).TrimStart('/');
+                }
+            }
+        }
+
         private bool ContainsPlaceHolder(string item)
         {
             return item.Contains("{") && item.Contains("}");
@@ -37,36 +61,34 @@ namespace NetClient.Rest
         {
             var result = JsonConvert.DeserializeObject<TResult>("[]");
             var resourceValues = new RestQueryTranslator().GetResourceValues(expression);
-            var routeTemplates = resource?.Settings?.RouteTemplates;
-            var parameterTemplates = resource?.Settings?.ParameterTemplates;
-
-            if (routeTemplates == null || !routeTemplates.Any())
-            {
-                resource?.OnError?.Invoke(new InvalidOperationException("Unable to obtain a value from the service because a route was not specified."));
-                return result;
-            }
 
             if (resource?.Settings?.BaseUri == null)
             {
-                resource.OnError?.Invoke(new InvalidOperationException("Unable to obtain a value from the service because a base URI was not specified."));
+                resource?.OnError?.Invoke(new InvalidOperationException("Unable to obtain data from the service because a base URI was not specified."));
                 return result;
             }
 
-            // Calculate routes.
-            ReplacePlaceHolders(routeTemplates, resourceValues);
-            var path = routeTemplates.FirstOrDefault(r => !ContainsPlaceHolder(r));
+            if (resource?.Settings?.Routes == null || !resource.Settings.Routes.Any())
+            {
+                resource?.OnError?.Invoke(new InvalidOperationException("Unable to obtain data from the service because a route was not specified."));
+                return result;
+            }
+
+            ReplaceTemplatePlaceHolders(resource?.Settings?.Routes, resourceValues);
+            ReplaceParameterPlaceHolders(resource?.Settings?.Routes, resourceValues);
+
+            var workingRoute = resource?.Settings?.Routes?.FirstOrDefault(r => r.Templates.Any(t => !ContainsPlaceHolder(t)));
+
+            var path = workingRoute?.Templates?.FirstOrDefault(r => !ContainsPlaceHolder(r));
             if (string.IsNullOrWhiteSpace(path))
             {
                 resource.OnError?.Invoke(new InvalidOperationException("Route resolution has failed. You probably failed to provide an appropriate route attribute with valid route templates."));
                 return result;
             }
 
-            // Calculate parameters.
-            ReplacePlaceHolders(parameterTemplates, resourceValues);
             var parameters = string.Empty;
-            parameters = parameterTemplates.Aggregate(parameters, (seed, accumulate) => ContainsPlaceHolder(accumulate) ? seed : $"{seed}&{accumulate}").TrimStart('&');
+            parameters = workingRoute.Parameters?.Aggregate(parameters, (seed, accumulate) => ContainsPlaceHolder(accumulate) ? seed : $"{seed}&{accumulate}").TrimStart('&');
 
-            // Calculate the request URI.
             var uriString = $"{resource.Settings?.BaseUri.AbsoluteUri}{path}";
             if (!string.IsNullOrWhiteSpace(parameters))
             {
@@ -80,34 +102,27 @@ namespace NetClient.Rest
                 {
                     using (var content = response.Content)
                     {
-                        var json = await content.ReadAsStringAsync();
-                        if (string.IsNullOrWhiteSpace(json)) return result;
+                        var responseContent = await content.ReadAsStringAsync();
+                        if (string.IsNullOrWhiteSpace(responseContent)) return result;
 
-                        foreach (var node in resource.Settings.RootNode)
+                        if (workingRoute.Nodes != null)
                         {
-                            json = JToken.Parse(json)[node].ToString();
+                            foreach (var node in workingRoute.Nodes)
+                            {
+                                responseContent = JToken.Parse(responseContent)[node].ToString();
+                            }
                         }
 
-                        if (JToken.Parse(json).Type == JTokenType.Array)
+                        if (JToken.Parse(responseContent).Type != JTokenType.Array)
                         {
-                            result = JsonConvert.DeserializeObject<TResult>($"{json}", resource?.Settings?.SerializerSettings);
+                            responseContent = $"[{responseContent}]";
                         }
-                        else
-                        {
-                            result = JsonConvert.DeserializeObject<TResult>($"[{json}]", resource?.Settings?.SerializerSettings);
-                        }
+
+                        result = JsonConvert.DeserializeObject<TResult>(responseContent, resource?.Settings?.SerializerSettings);
                     }
                 }
             }
             return result;
-        }
-
-        private static void ReplacePlaceHolders(IList<string> source, IDictionary<string, object> resourceValues)
-        {
-            foreach (var index in Enumerable.Range(0, source.Count))
-            {
-                source[index] = resourceValues.Aggregate(source[index], (seed, accumulate) => seed.Replace($"{{{accumulate.Key}}}", accumulate.Value.ToString())).TrimStart('/');
-            }
         }
 
         /// <summary>

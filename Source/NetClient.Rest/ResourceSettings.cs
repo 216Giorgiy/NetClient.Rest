@@ -18,28 +18,10 @@ namespace NetClient.Rest
         public Uri BaseUri { get; set; }
 
         /// <summary>
-        ///     Gets the parameter templates.
+        ///     Gets the routes.
         /// </summary>
-        /// <value>The parameter templates.</value>
-        public List<string> ParameterTemplates { get; } = new List<string>();
-
-        /// <summary>
-        ///     Gets the JSON root node path.
-        /// </summary>
-        /// <value>The root node path.</value>
-        public List<string> RootNode { get; } = new List<string>();
-
-        /// <summary>
-        ///     Gets or sets the route.
-        /// </summary>
-        /// <value>The route.</value>
-        public Route Route { get; set; }
-
-        /// <summary>
-        ///     Gets the route templates.
-        /// </summary>
-        /// <value>The route templates.</value>
-        public List<string> RouteTemplates { get; } = new List<string>();
+        /// <value>The routes.</value>
+        public IList<Route> Routes { get; } = new List<Route>();
 
         /// <summary>
         ///     Gets or sets the serializer settings.
@@ -56,40 +38,32 @@ namespace NetClient.Rest
         {
             if (BaseUri == null)
             {
-                var attribute = client.GetType().GetCustomAttributes<BaseUriAttribute>(true).FirstOrDefault();
-                BaseUri = attribute?.BaseUri;
+                BaseUri = property.GetCustomAttributes<BaseUriAttribute>(true)?.FirstOrDefault()?.BaseUri;
             }
 
             if (BaseUri == null)
             {
-                var attribute = property.GetCustomAttributes<BaseUriAttribute>(true).FirstOrDefault();
-                BaseUri = attribute?.BaseUri;
+                BaseUri = client.GetType().GetCustomAttributes<BaseUriAttribute>(true)?.FirstOrDefault()?.BaseUri;
             }
 
             if (SerializerSettings == null)
             {
-                var attribute = client.GetType().GetCustomAttributes<SerializerSettingsAttribute>(true).FirstOrDefault();
-                SerializerSettings = attribute?.SerializerSettings;
+                SerializerSettings = property.GetCustomAttributes<SerializerSettingsAttribute>(true)?.FirstOrDefault()?.SerializerSettings;
             }
 
             if (SerializerSettings == null)
             {
-                var attribute = property.GetCustomAttributes<SerializerSettingsAttribute>(true).FirstOrDefault();
-                SerializerSettings = attribute?.SerializerSettings;
+                SerializerSettings = client.GetType().GetCustomAttributes<SerializerSettingsAttribute>(true)?.FirstOrDefault()?.SerializerSettings;
             }
 
-            var rootNode = property.GetCustomAttributes<RootNodeAttribute>(true).FirstOrDefault()?.Nodes;
-            if (rootNode != null)
+            var routes = property.GetCustomAttributes<RouteAttribute>(true)?.Select(attribute => attribute.Route);
+            if (routes != null)
             {
-                RootNode.AddRange(rootNode);
+                foreach (var route in routes)
+                {
+                    Routes.Add(route);
+                }
             }
-            ;
-
-            RouteTemplates.AddRange(RouteAttribute.GetTemplates(client, property.Name));
-            RouteTemplates.AddRange(RoutesAttribute.GetTemplates(client, property.Name));
-
-            ParameterTemplates.AddRange(ParameterAttribute.GetTemplates(client, property.Name));
-            ParameterTemplates.AddRange(ParametersAttribute.GetTemplates(client, property.Name));
         }
 
         /// <summary>
@@ -100,21 +74,22 @@ namespace NetClient.Rest
         {
             if (BaseUri == null)
             {
-                var attribute = caller.GetType().GetCustomAttributes(typeof(BaseUriAttribute), true).FirstOrDefault() as BaseUriAttribute;
-                BaseUri = attribute?.BaseUri;
+                BaseUri = caller.GetType().GetCustomAttributes<BaseUriAttribute>(true).FirstOrDefault()?.BaseUri;
             }
 
             if (SerializerSettings == null)
             {
-                var attribute = caller.GetType().GetCustomAttributes(typeof(SerializerSettingsAttribute), true).FirstOrDefault() as SerializerSettingsAttribute;
-                SerializerSettings = attribute?.SerializerSettings;
+                SerializerSettings = caller.GetType().GetCustomAttributes<SerializerSettingsAttribute>(true).FirstOrDefault()?.SerializerSettings;
             }
 
-            RouteTemplates.AddRange(caller.GetType().GetCustomAttributes<RouteAttribute>().Select(attribute => attribute.Template));
-            RouteTemplates.AddRange(caller.GetType().GetCustomAttributes<RoutesAttribute>().SelectMany(attribute => attribute.Templates));
-
-            ParameterTemplates.AddRange(caller.GetType().GetCustomAttributes<ParameterAttribute>().Select(attribute => attribute.Template));
-            ParameterTemplates.AddRange(caller.GetType().GetCustomAttributes<ParametersAttribute>().SelectMany(attribute => attribute.Templates));
+            var routes = caller.GetType().GetCustomAttributes<RouteAttribute>(true)?.Select(attribute => attribute.Route);
+            if (routes != null)
+            {
+                foreach (var route in routes)
+                {
+                    Routes.Add(route);
+                }
+            }
         }
     }
 }

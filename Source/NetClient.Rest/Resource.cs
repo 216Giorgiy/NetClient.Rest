@@ -167,4 +167,16 @@ namespace NetClient.Rest
             set { onError = value; }
         }
     }
+
+    /// <summary>
+    ///     Represents the REST resource.
+    /// </summary>
+    public class Resource
+    {
+        /// <summary>
+        ///     Gets the criteria.
+        /// </summary>
+        /// <value>The criteria.</value>
+        public static object Criteria => null;
+    }
 }

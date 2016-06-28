@@ -5,15 +5,6 @@ namespace NetClient.Rest.TestConsole
     [BaseUri("https://blockchain.info")]
     public class AddressCriteria
     {
-        public AddressCriteria(string base58)
-        {
-            Base58 = base58;
-        }
-
-        public AddressCriteria()
-        {
-        }
-
         [Route("/rawaddr/{Base58}")]
         public string Base58 { get; set; }
 
@@ -21,9 +12,9 @@ namespace NetClient.Rest.TestConsole
         public string Hash160 { get; set; }
 
         [Parameter("limit={Limit}")]
-        public int Limit { get; set; }
+        public int? Limit { get; set; }
 
         [Parameter("offset={Offset}")]
-        public int Offset { get; set; }
+        public int? Offset { get; set; }
     }
 }

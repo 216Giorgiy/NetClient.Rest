@@ -9,6 +9,7 @@ namespace NetClient.Rest.TestConsole
 
         [JsonProperty("hash160", Required = Required.Always)]
         public string Hash160 { get; private set; }
+
         [JsonProperty("total_received", Required = Required.Always)]
         public decimal Received { get; private set; }
 

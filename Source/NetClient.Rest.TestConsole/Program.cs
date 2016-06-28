@@ -34,9 +34,14 @@ namespace NetClient.Rest.TestConsole
                     //                      client.Addresses.Criteria.Offset == 100
                     //                select a;                    //var client = new BlockchainClient { OnError = ex => Console.WriteLine(ex.Message) };
 
-                    //var addressCriteria = new AddressCriteria { Base58 = "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa", Limit = 20 };
+                    var criteria = new AddressCriteria
+                    {
+                        Base58 = "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+                        Limit = 20
+                    };
+
                     addresses = from a in client.Addresses
-                                    where new AddressCriteria("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa") != null
+                                    where Resource.Criteria == criteria
                                     select a;
 
                     break;

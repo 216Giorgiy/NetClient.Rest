@@ -25,15 +25,23 @@ namespace NetClient.Rest
             switch (node.NodeType)
             {
                 case ExpressionType.Equal:
-                    var name = (node.Left as MemberExpression)?.Member.Name;
-                    if (!string.IsNullOrWhiteSpace(name))
+                    var leftExpression = node.Left as MemberExpression;
+                    var leftExpressionMemberName = leftExpression?.Member.Name;
+                    var expressionIsCriteria = leftExpressionMemberName?.Equals("Criteria", StringComparison.InvariantCultureIgnoreCase);
+
+                    if (expressionIsCriteria.HasValue && expressionIsCriteria.Value)
                     {
-                        if (queryValues.ResourceValues.ContainsKey(name))
+                        var notEqualExpression = Expression.Convert(node.Right, typeof(object));
+                        queryValues.Criteria.Add(Expression.Lambda<Func<object>>(notEqualExpression).Compile()());
+                    }
+                    else if (!string.IsNullOrWhiteSpace(leftExpressionMemberName))
+                    {
+                        if (queryValues.ResourceValues.ContainsKey(leftExpressionMemberName))
                         {
                             throw new InvalidOperationException("A duplicate resource key was used in the query expression.");
                         }
 
-                        object value = null;
+                        object value;
                         switch (node.Right.NodeType)
                         {
                             case ExpressionType.Constant:
@@ -46,17 +54,12 @@ namespace NetClient.Rest
                             default:
                                 throw new InvalidOperationException("The expression type used is not supported.");
                         }
-                        queryValues.ResourceValues.Add(name, value);
+                        queryValues.ResourceValues.Add(leftExpressionMemberName, value);
                     }
                     break;
                 case ExpressionType.AndAlso:
                     break;
                 case ExpressionType.NotEqual:
-                    if ((node.Right as ConstantExpression)?.Value == null)
-                    {
-                        var notEqualExpression = Expression.Convert(node.Left, typeof(object));
-                        queryValues.Criteria.Add(Expression.Lambda<Func<object>>(notEqualExpression).Compile()());
-                    }
                     break;
                 default:
                     throw new InvalidOperationException("An invalid expression type was used in the query expression.");

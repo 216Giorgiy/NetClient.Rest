@@ -64,8 +64,7 @@ namespace NetClient.Rest
             {
                 foreach (var criterion in queryValues.Criteria)
                 {
-                    if (resource?.Settings?.BaseUri != null) break;
-
+                    resource?.Settings?.Configure(criterion);
                 }
             }
 
@@ -82,8 +81,8 @@ namespace NetClient.Rest
                 return result;
             }
 
-            ReplaceTemplatePlaceHolders(resource?.Settings?.Routes, queryValues.ResourceValues);
-            ReplaceParameterPlaceHolders(resource?.Settings?.Routes, queryValues.ResourceValues);
+            ReplaceTemplatePlaceHolders(resource?.Settings?.Routes, queryValues?.ResourceValues);
+            ReplaceParameterPlaceHolders(resource?.Settings?.Routes, queryValues?.ResourceValues);
 
             var workingRoute = resource?.Settings?.Routes?.FirstOrDefault(r => r.Templates.Any(t => !ContainsPlaceHolder(t)));
 

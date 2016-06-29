@@ -25,17 +25,19 @@ namespace NetClient.Rest
                 if (property.PropertyType.IsGenericType)
                 {
                     var concreteType = Type.GetType($"{property.Name}Resource", false);
-                    if (concreteType != null)
+                    if (concreteType == null)
                     {
-                        
+                        var settings = new ResourceSettings();
+                        settings.Configure(this, property);
+
+                        var resourceType = typeof(Resource<>).MakeGenericType(property.PropertyType.GenericTypeArguments);
+                        element = Activator.CreateInstance(resourceType, this, settings, null, null);
                     }
-                    Debug.WriteLine($"Type!!! {concreteType}");
+                    else
+                    {
+                        element = Activator.CreateInstance(concreteType);
+                    }
 
-                    var settings = new ResourceSettings();
-                    settings.Configure(this, property);
-
-                    var resourceType = typeof(Resource<>).MakeGenericType(property.PropertyType.GenericTypeArguments);
-                    element = Activator.CreateInstance(resourceType, this, settings, null, null);
                 }
                 else
                 {

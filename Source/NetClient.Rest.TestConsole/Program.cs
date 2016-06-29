@@ -11,7 +11,8 @@ namespace NetClient.Rest.TestConsole
             // resource level and provides an injectable and mockable construct.
 
             var addressResource = new AddressResource();
-            var addresses = from a in addressResource where a.Base58 == "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" select a;
+            addressResource.OnError = ex => { Console.WriteLine(ex); };
+            var addresses = from a in addressResource where a.Hash160 == "62e907b15cbf27d5425399ebf6f0fb50ebb88f18" select a;
             var address = addresses.ToArray().SingleOrDefault();
 
             Console.WriteLine();

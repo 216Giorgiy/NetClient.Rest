@@ -44,6 +44,7 @@ namespace NetClient.Rest
                         switch (node.Right.NodeType)
                         {
                             case ExpressionType.Constant:
+                            case ExpressionType.Convert:
                                 value = (node.Right as ConstantExpression)?.Value;
                                 break;
                             case ExpressionType.MemberAccess:

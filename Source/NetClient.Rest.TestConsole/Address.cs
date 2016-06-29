@@ -9,7 +9,8 @@ namespace NetClient.Rest.TestConsole
         public string Base58 { get; private set; }
 
         [JsonProperty("hash160", Required = Required.Always)]
-        public string Hash160 { get; private set; }
+        [JsonConverter(typeof(HexJsonConverter))]
+        public Hex Hash160 { get; private set; }
 
         [JsonProperty("total_received", Required = Required.Always)]
         public decimal Received { get; private set; }

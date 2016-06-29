@@ -14,7 +14,7 @@ namespace NetClient.Rest.TestConsole
             addressResource.OnError = Console.WriteLine;
 
             var address = addressResource
-                .Where(a => a.Base58 == "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa")
+                .Where(a => a.Hash160 == "e6fd80cf7a96cec946e8ffa13573fb946a5e0980051f739c97ba31bc4a3d7fc1")
                 .ToArray()
                 .SingleOrDefault();
 

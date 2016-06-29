@@ -60,14 +60,6 @@ namespace NetClient.Rest
         private async Task<TResult> GetRestValueAsync<TResult>(Expression expression)
         {
             var queryValues = new RestQueryTranslator().GetQueryValues(expression);
-            if (queryValues?.Criteria != null)
-            {
-                foreach (var criterion in queryValues.Criteria)
-                {
-                    resource?.Settings?.Configure(criterion);
-                }
-            }
-
             var result = JsonConvert.DeserializeObject<TResult>("[]");
             if (resource?.Settings?.BaseUri == null)
             {

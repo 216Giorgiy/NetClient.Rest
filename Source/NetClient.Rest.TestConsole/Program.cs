@@ -7,67 +7,11 @@ namespace NetClient.Rest.TestConsole
     {
         private static void Main(string[] args)
         {
-            // Testing out root nodes.
-            //var client1 = new BlockchainClient { OnError = ex => Console.WriteLine(ex.Message) };
-            //var unspentOutputs = client1.UnspentOutputs
-            //    .Where(u => u.Address == "1FW8KHjgtPTngKLHAw4YALtWoENsRpjt33")
-            //    .ToArray();
+            // Create a concrete resource without an API client. This allows decomposition down to the
+            // resource level and provides an injectable and mockable construct.
 
-            // The Resource class represents a resource in a REST-ful service API. Resource can be used in three
-            // ways depending on your requirements. Change the DemoType to exercise the demo code demonstrating
-            // each of the three use cases.
-            var demoType = DemoType.ApiClientResource;
-
-            IQueryable<Address> addresses;
-
-            switch (demoType)
-            {
-                case DemoType.ApiClientResource:
-                    // Creating a concrete API client can ease developer interaction with the API. This requires a
-                    // concrete client representing the entire API and a property representing each resource you
-                    // want to make available.
-
-                    var client = new BlockchainClient { OnError = ex => Console.WriteLine(ex.Message) };
-                    //addresses = from a in client.Addresses
-                    //                where a.Base58 == "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" &&
-                    //                      client.Addresses.Criteria.Limit == 20 &&
-                    //                      client.Addresses.Criteria.Offset == 100
-                    //                select a;                    //var client = new BlockchainClient { OnError = ex => Console.WriteLine(ex.Message) };
-
-                    var criteria = new AddressCriteria
-                    {
-                        Base58 = "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
-                        Limit = 20
-                    };
-
-                    addresses = from a in client.Addresses
-                                    where Resource.Criteria == criteria
-                                    select a;
-
-                    break;
-                case DemoType.ConcreteResource:
-                    // Create a concrete resource without an API client. This allows decomposition down to the
-                    // resource level and provides an injectable and mockable construct.
-
-                    addresses = from a in new AddressResource() where a.Base58 == "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" select a;
-
-                    break;
-                //case DemoType.ConstructedResource:
-                //    // Same concept as the concrete resource, but there is no concrete class to support the
-                //    // settings. Settings must be composed and provided to the resource at construction.
-
-                //    var settings = new ResourceSettings();
-                //    settings.BaseUri = new Uri("https://blockchain.info");
-                //    settings.RouteTemplates.AddRange(new[] { "/rawaddr/{Base58}", "/rawaddr/{Hash160}" });
-                //    settings.ParameterTemplates.AddRange(new[] { "limit={Limit}", "offset={Offset}" });
-
-                //    //addresses = from a in new Resource<Address, AddressCriteria>(settings) where a.Base58 == "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" select a;
-
-                //    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
+            var addressResource = new AddressResource();
+            var addresses = from a in addressResource where a.Base58 == "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" select a;
             var address = addresses.ToArray().SingleOrDefault();
 
             Console.WriteLine();

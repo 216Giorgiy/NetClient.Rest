@@ -32,15 +32,14 @@ namespace NetClient.Rest
                     if (expressionIsCriteria.HasValue && expressionIsCriteria.Value)
                     {
                         var notEqualExpression = Expression.Convert(node.Right, typeof(object));
-                        queryValues.Criteria.Add(Expression.Lambda<Func<object>>(notEqualExpression).Compile()());
+                        var criteria = Expression.Lambda<Func<object>>(notEqualExpression).Compile()();
+                        foreach (var property in criteria.GetType().GetProperties())
+                        {
+                            queryValues.ResourceValues.Add(property.Name, property.GetValue(criteria));
+                        }
                     }
                     else if (!string.IsNullOrWhiteSpace(leftExpressionMemberName))
                     {
-                        if (queryValues.ResourceValues.ContainsKey(leftExpressionMemberName))
-                        {
-                            throw new InvalidOperationException("A duplicate resource key was used in the query expression.");
-                        }
-
                         object value;
                         switch (node.Right.NodeType)
                         {
@@ -54,7 +53,15 @@ namespace NetClient.Rest
                             default:
                                 throw new InvalidOperationException("The expression type used is not supported.");
                         }
-                        queryValues.ResourceValues.Add(leftExpressionMemberName, value);
+
+                        if (queryValues.ResourceValues.ContainsKey(leftExpressionMemberName))
+                        {
+                            queryValues.ResourceValues[leftExpressionMemberName] = value;
+                        }
+                        else
+                        {
+                            queryValues.ResourceValues.Add(leftExpressionMemberName, value);
+                        }
                     }
                     break;
                 case ExpressionType.AndAlso:

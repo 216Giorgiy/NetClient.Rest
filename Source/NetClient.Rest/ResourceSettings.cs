@@ -91,48 +91,5 @@ namespace NetClient.Rest
                 }
             }
         }
-
-        /// <summary>
-        ///     Fills the settings.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        public void Configure(object criteria)
-        {
-            BaseUri = criteria.GetType().GetCustomAttribute<BaseUriAttribute>(true)?.BaseUri;
-            SerializerSettings = criteria.GetType().GetCustomAttribute<SerializerSettingsAttribute>(true)?.SerializerSettings;
-
-            var routes = new List<Route>();
-            var parameters = new List<string>();
-            foreach (var property in criteria.GetType().GetProperties())
-            {
-                var propertyValue = property.GetValue(criteria);
-
-                foreach (var attribute in property.GetCustomAttributes<RouteAttribute>(true))
-                {
-                    routes.Add(attribute.Route);
-
-                    if (propertyValue == null) continue;
-                    foreach (var index in Enumerable.Range(0, attribute.Route.Templates.Length))
-                    {
-                        attribute.Route.Templates[index] = attribute.Route.Templates[index].Replace($"{{{property.Name}}}", propertyValue.ToString());
-                    }
-                }
-                foreach (var attribute in property.GetCustomAttributes<ParameterAttribute>(true))
-                {
-                    var parameter = attribute.Template;
-                    if (propertyValue != null)
-                    {
-                        parameter = parameter.Replace($"{{{property.Name}}}", propertyValue.ToString());
-                    }
-                    parameters.Add(parameter);
-                }
-            }
-
-            foreach (var route in routes)
-            {
-                route.Parameters = parameters.ToArray();
-                Routes.Add(route);
-            }
-        }
     }
 }

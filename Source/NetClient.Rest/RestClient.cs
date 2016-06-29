@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NetClient.Rest
@@ -15,12 +16,21 @@ namespace NetClient.Rest
         {
             foreach (var property in GetType().GetProperties())
             {
-                if (!property.PropertyType.IsGenericType || (property.PropertyType.GetGenericTypeDefinition() != typeof(Resource<>) && property.PropertyType.GetGenericTypeDefinition() != typeof(Resource<,>))) continue;
+                if (!IsAssignableToGenericType(property.PropertyType, typeof(IQueryable<>))) continue;
 
-                var settings = new ResourceSettings();
-                settings.Configure(this, property);
+                object element;
+                if (property.PropertyType.IsGenericType)
+                {
+                    var settings = new ResourceSettings();
+                    settings.Configure(this, property);
 
-                var element = Activator.CreateInstance(property.PropertyType, this, settings, null, null);
+                    var rsourceType = typeof(Resource<>).MakeGenericType(property.PropertyType.GenericTypeArguments);
+                    element = Activator.CreateInstance(rsourceType, this, settings, null, null);
+                }
+                else
+                {
+                    element = Activator.CreateInstance(property.PropertyType);
+                }
                 property.SetValue(this, element);
             }
         }
@@ -39,5 +49,27 @@ namespace NetClient.Rest
         /// </summary>
         /// <value>The error action.</value>
         public Action<Exception> OnError { get; set; }
+
+        private static bool IsAssignableToGenericType(Type givenType, Type genericType)
+        {
+            var interfaceTypes = givenType.GetInterfaces();
+
+            foreach (var it in interfaceTypes)
+            {
+                if (it.IsGenericType && it.GetGenericTypeDefinition() == genericType)
+                {
+                    return true;
+                }
+            }
+
+            if (givenType.IsGenericType && givenType.GetGenericTypeDefinition() == genericType)
+            {
+                return true;
+            }
+
+            var baseType = givenType.BaseType;
+
+            return baseType != null && IsAssignableToGenericType(baseType, genericType);
+        }
     }
 }

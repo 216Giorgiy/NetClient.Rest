@@ -10,46 +10,6 @@ namespace NetClient.Rest
     ///     The RestClient Element.
     /// </summary>
     /// <typeparam name="T">The element type.</typeparam>
-    /// <typeparam name="TCriteria">The criteria type.</typeparam>
-    public class Resource<T, TCriteria> : Resource<T>, IElement<T, TCriteria> where TCriteria : new()
-    {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Resource{T}" /> class.
-        /// </summary>
-        /// <param name="client">The client.</param>
-        /// <param name="settings">The settings.</param>
-        /// <param name="onError">The on error.</param>
-        /// <param name="expression">The expression.</param>
-        public Resource(INetClient client, ResourceSettings settings, Action<Exception> onError, Expression expression) : base(client, settings, onError, expression)
-        {
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Resource{T}" /> class.
-        /// </summary>
-        /// <param name="settings">The settings.</param>
-        public Resource(ResourceSettings settings) : base(settings)
-        {
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Resource{T}" /> class.
-        /// </summary>
-        public Resource()
-        {
-        }
-
-        /// <summary>
-        ///     Gets the criteria.
-        /// </summary>
-        /// <value>The criteria.</value>
-        public TCriteria Criteria { get; }
-    }
-
-    /// <summary>
-    ///     The RestClient Element.
-    /// </summary>
-    /// <typeparam name="T">The element type.</typeparam>
     public class Resource<T> : IElement<T>
     {
         private Action<Exception> onError;
@@ -166,17 +126,5 @@ namespace NetClient.Rest
             get { return onError ?? Client?.OnError; }
             set { onError = value; }
         }
-    }
-
-    /// <summary>
-    ///     Represents the REST resource.
-    /// </summary>
-    public class Resource
-    {
-        /// <summary>
-        ///     Gets the criteria.
-        /// </summary>
-        /// <value>The criteria.</value>
-        public static object Criteria => null;
     }
 }

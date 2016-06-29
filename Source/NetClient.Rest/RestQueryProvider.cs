@@ -59,24 +59,26 @@ namespace NetClient.Rest
 
         private async Task<TResult> GetRestValueAsync<TResult>(Expression expression)
         {
+            var settings = GetWorkingSettings(resource?.Settings);
+
             var queryValues = new RestQueryTranslator().GetQueryValues(expression);
             var result = JsonConvert.DeserializeObject<TResult>("[]");
-            if (resource?.Settings?.BaseUri == null)
+            if (settings?.BaseUri == null)
             {
                 resource?.OnError?.Invoke(new InvalidOperationException("Unable to obtain data from the service because a base URI was not specified."));
                 return result;
             }
 
-            if (resource?.Settings?.Routes == null || !resource.Settings.Routes.Any())
+            if (settings?.Routes == null || !settings.Routes.Any())
             {
                 resource?.OnError?.Invoke(new InvalidOperationException("Unable to obtain data from the service because a route was not specified."));
                 return result;
             }
 
-            ReplaceTemplatePlaceHolders(resource?.Settings?.Routes, queryValues?.ResourceValues);
-            ReplaceParameterPlaceHolders(resource?.Settings?.Routes, queryValues?.ResourceValues);
+            ReplaceTemplatePlaceHolders(settings?.Routes, queryValues?.ResourceValues);
+            ReplaceParameterPlaceHolders(settings?.Routes, queryValues?.ResourceValues);
 
-            var workingRoute = resource?.Settings?.Routes?.FirstOrDefault(r => r.Templates.Any(t => !ContainsPlaceHolder(t)));
+            var workingRoute = settings?.Routes?.FirstOrDefault(r => r.Templates.Any(t => !ContainsPlaceHolder(t)));
 
             var path = workingRoute?.Templates?.FirstOrDefault(r => !ContainsPlaceHolder(r));
             if (string.IsNullOrWhiteSpace(path))
@@ -88,7 +90,7 @@ namespace NetClient.Rest
             var parameters = string.Empty;
             parameters = workingRoute.Parameters?.Aggregate(parameters, (seed, accumulate) => ContainsPlaceHolder(accumulate) ? seed : $"{seed}&{accumulate}").TrimStart('&');
 
-            var uriString = $"{resource.Settings?.BaseUri.AbsoluteUri}{path}";
+            var uriString = $"{settings?.BaseUri.AbsoluteUri}{path}";
             if (!string.IsNullOrWhiteSpace(parameters))
             {
                 uriString = $"{uriString}?{parameters}";
@@ -117,11 +119,40 @@ namespace NetClient.Rest
                             responseContent = $"[{responseContent}]";
                         }
 
-                        result = JsonConvert.DeserializeObject<TResult>(responseContent, resource?.Settings?.SerializerSettings);
+                        result = JsonConvert.DeserializeObject<TResult>(responseContent, settings?.SerializerSettings);
                     }
                 }
             }
             return result;
+        }
+
+        private ResourceSettings GetWorkingSettings(ResourceSettings settings)
+        {
+            if (settings == null) return null;
+
+            var workingSettings = new ResourceSettings();
+            workingSettings.BaseUri = settings.BaseUri;
+            workingSettings.SerializerSettings = settings.SerializerSettings;
+            foreach (var route in settings.Routes)
+            {
+                var workingRoute = new Route();
+                workingSettings.Routes.Add(workingRoute);
+
+                if (route.Nodes != null)
+                {
+                    workingRoute.Nodes = route.Nodes.ToArray();
+                }
+                if (route.Parameters != null)
+                {
+                    workingRoute.Parameters = route.Parameters.ToArray();
+                }
+                if (route.Templates != null)
+                {
+                    workingRoute.Templates = route.Templates.ToArray();
+                }
+            }
+
+            return workingSettings;
         }
 
         /// <summary>

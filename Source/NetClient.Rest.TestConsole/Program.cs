@@ -12,8 +12,11 @@ namespace NetClient.Rest.TestConsole
 
             var addressResource = new AddressResource();
             addressResource.OnError = Console.WriteLine;
-            var addresses = from a in addressResource where a.Base58 == "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" select a;
-            var address = addresses.ToArray().SingleOrDefault();
+
+            var address = addressResource
+                .Where(a => a.Base58 == "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa")
+                .ToArray()
+                .SingleOrDefault();
 
             Console.WriteLine();
             Console.WriteLine("  Data from service call.");

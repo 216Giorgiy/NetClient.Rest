@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,14 +19,23 @@ namespace NetClient.Rest
             {
                 if (!IsAssignableToGenericType(property.PropertyType, typeof(IQueryable<>))) continue;
 
+                if (property.GetValue(this) != null) continue;
+
                 object element;
                 if (property.PropertyType.IsGenericType)
                 {
+                    var concreteType = Type.GetType($"{property.Name}Resource", false);
+                    if (concreteType != null)
+                    {
+                        
+                    }
+                    Debug.WriteLine($"Type!!! {concreteType}");
+
                     var settings = new ResourceSettings();
                     settings.Configure(this, property);
 
-                    var rsourceType = typeof(Resource<>).MakeGenericType(property.PropertyType.GenericTypeArguments);
-                    element = Activator.CreateInstance(rsourceType, this, settings, null, null);
+                    var resourceType = typeof(Resource<>).MakeGenericType(property.PropertyType.GenericTypeArguments);
+                    element = Activator.CreateInstance(resourceType, this, settings, null, null);
                 }
                 else
                 {

@@ -9,6 +9,8 @@
 
 An asynchronous REST API client that allows you to make API calls using LINQ syntax. Note: Add, edit, and delete functionality is coming soon.
 
+See the [assembly help documentation](http://skthomasjr.github.io/NetClient.Rest/Site/Help/Index.html) for help on usage and code samples.
+
 Create a class that models the return data. Support for JsonSerializationSettings is built-in for more precise control of how data is serialized and deserialized.
 ```c#
 public class Customer

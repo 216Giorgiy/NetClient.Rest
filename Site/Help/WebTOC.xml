@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HelpTOC>
+
+  <HelpTOCNode Id="c773de39-4408-42fc-9abf-80010909df29" Title="NetClient.Rest Namespace" Url="html/1603970084.htm">
+    <HelpTOCNode Id="2af1cfe2-71c9-4e0f-9463-6e0fa327ffc3" Title="BaseUriAttribute Class" Url="html/1252778385.htm">
+      <HelpTOCNode Title="BaseUriAttribute Members" Url="html/227095983.htm" />
+      <HelpTOCNode Title="BaseUriAttribute Constructor " Url="html/911178475.htm" />
+      <HelpTOCNode Title="BaseUriAttribute Methods" Url="html/464958294.htm" />
+      <HelpTOCNode Id="e8794382-7a28-4362-a142-a304cb2b5797" Title="BaseUriAttribute Properties" Url="html/1470392934.htm">
+        <HelpTOCNode Title="BaseUri Property " Url="html/1692908221.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="cb497611-307a-4f31-9146-2da1de33d953" Title="Resource(T) Class" Url="html/832583994.htm">
+      <HelpTOCNode Title="Resource(T) Members" Url="html/1610600250.htm" />
+      <HelpTOCNode Id="a40ee92a-92d3-4f08-8e62-b83690ca5143" Title="Resource(T) Constructor " Url="html/1415541958.htm">
+        <HelpTOCNode Title="Resource(T) Constructor (INetClient, ResourceSettings, Action(Exception), Expression)" Url="html/1085221465.htm" />
+        <HelpTOCNode Title="Resource(T) Constructor (ResourceSettings)" Url="html/2078191676.htm" />
+        <HelpTOCNode Title="Resource(T) Constructor " Url="html/1405224283.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="d9ada29e-897b-43e3-a51a-921a7b8ac65e" Title="Resource(T) Methods" Url="html/1902530137.htm">
+        <HelpTOCNode Title="Add Method " Url="html/1451617621.htm" />
+        <HelpTOCNode Title="Delete Method " Url="html/1017211246.htm" />
+        <HelpTOCNode Title="GetEnumerator Method " Url="html/1578913904.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="e6d46ae9-165f-445a-aa42-35904d52cedf" Title="Resource(T) Properties" Url="html/2092334663.htm">
+        <HelpTOCNode Title="Client Property " Url="html/1756473361.htm" />
+        <HelpTOCNode Title="ElementType Property " Url="html/1067221282.htm" />
+        <HelpTOCNode Title="Expression Property " Url="html/1167781005.htm" />
+        <HelpTOCNode Title="OnError Property " Url="html/106770206.htm" />
+        <HelpTOCNode Title="Provider Property " Url="html/680386843.htm" />
+        <HelpTOCNode Title="Settings Property " Url="html/2019495157.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="bcce4408-88cf-4772-89fc-e15b8b00784f" Title="ResourceSettings Class" Url="html/1294006137.htm">
+      <HelpTOCNode Title="ResourceSettings Members" Url="html/461874178.htm" />
+      <HelpTOCNode Id="014d5dd2-dce3-4352-8080-712a5a462edf" Title="ResourceSettings Methods" Url="html/1351782768.htm">
+        <HelpTOCNode Id="0b72523d-9585-4f70-b49a-f4d666b49985" Title="Configure Method " Url="html/1148171596.htm">
+          <HelpTOCNode Title="Configure Method (INetClient, PropertyInfo)" Url="html/325811754.htm" />
+          <HelpTOCNode Title="Configure Method (IElement)" Url="html/627199393.htm" />
+        </HelpTOCNode>
+      </HelpTOCNode>
+      <HelpTOCNode Id="8ef4e7ad-77f2-4f7a-9b3e-092ab39e52ce" Title="ResourceSettings Properties" Url="html/1768204988.htm">
+        <HelpTOCNode Title="BaseUri Property " Url="html/1715432400.htm" />
+        <HelpTOCNode Title="Routes Property " Url="html/1197643787.htm" />
+        <HelpTOCNode Title="SerializerSettings Property " Url="html/784374097.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="73401494-658e-433a-819d-e8d9ee5c32c8" Title="RestClient Class" Url="html/1843050942.htm">
+      <HelpTOCNode Title="RestClient Members" Url="html/1588700364.htm" />
+      <HelpTOCNode Title="RestClient Constructor " Url="html/274915272.htm" />
+      <HelpTOCNode Id="8c2c6ca8-8150-4a7a-bd1c-fc1d56907579" Title="RestClient Methods" Url="html/2068780171.htm">
+        <HelpTOCNode Title="SaveChangesAsync Method " Url="html/169116847.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Id="55b16488-a32a-472b-97ff-af280ef4ccb1" Title="RestClient Properties" Url="html/728626397.htm">
+        <HelpTOCNode Title="OnError Property " Url="html/1088587045.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="db14a541-412d-4fa9-9076-0824652c1d1b" Title="Route Class" Url="html/813405691.htm">
+      <HelpTOCNode Title="Route Members" Url="html/151847104.htm" />
+      <HelpTOCNode Title="Route Methods" Url="html/1537449901.htm" />
+      <HelpTOCNode Id="ae7fdbd1-683e-4f71-abf0-d422fcf23aa9" Title="Route Properties" Url="html/920039517.htm">
+        <HelpTOCNode Title="Nodes Property " Url="html/340667890.htm" />
+        <HelpTOCNode Title="Parameters Property " Url="html/1291892969.htm" />
+        <HelpTOCNode Title="Templates Property " Url="html/916498692.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="6b372f7d-6425-4ede-b2a2-626161b38e4b" Title="RouteAttribute Class" Url="html/1554776830.htm">
+      <HelpTOCNode Title="RouteAttribute Members" Url="html/785365680.htm" />
+      <HelpTOCNode Id="90cd9163-d6d8-4ceb-a970-db2801a89b59" Title="RouteAttribute Constructor " Url="html/165696825.htm">
+        <HelpTOCNode Title="RouteAttribute Constructor (String, String[], String[])" Url="html/509531184.htm" />
+        <HelpTOCNode Title="RouteAttribute Constructor (String, String[], String)" Url="html/117807082.htm" />
+        <HelpTOCNode Title="RouteAttribute Constructor (String, String[])" Url="html/793226443.htm" />
+        <HelpTOCNode Title="RouteAttribute Constructor (String)" Url="html/1802192813.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Title="RouteAttribute Methods" Url="html/251535571.htm" />
+      <HelpTOCNode Id="ad2c83f2-fb51-4816-a0c1-7bcf6b182123" Title="RouteAttribute Properties" Url="html/1000095863.htm">
+        <HelpTOCNode Title="Route Property " Url="html/846940164.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Id="e70c145b-1dab-43ff-b85e-6a7329848c18" Title="SerializerSettingsAttribute Class" Url="html/2068115112.htm">
+      <HelpTOCNode Title="SerializerSettingsAttribute Members" Url="html/897399143.htm" />
+      <HelpTOCNode Title="SerializerSettingsAttribute Constructor " Url="html/1867726916.htm" />
+      <HelpTOCNode Title="SerializerSettingsAttribute Methods" Url="html/47395595.htm" />
+      <HelpTOCNode Id="7ea04cb2-ebda-4195-935a-bdb9ad1dc1fd" Title="SerializerSettingsAttribute Properties" Url="html/92177080.htm">
+        <HelpTOCNode Title="SerializerSettings Property " Url="html/325391994.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+</HelpTOC>

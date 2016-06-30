@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HelpKI>
+  <HelpKINode Title="Add method" Url="html/1451617621.htm" />
+  <HelpKINode Title="BaseUri property">
+    <HelpKINode Title="BaseUri Property " Url="html/1692908221.htm" />
+    <HelpKINode Title="BaseUri Property " Url="html/1715432400.htm" />
+  </HelpKINode>
+  <HelpKINode Title="BaseUriAttribute class">
+    <HelpKINode Title="BaseUriAttribute Class" Url="html/1252778385.htm" />
+    <HelpKINode Title="BaseUriAttribute Members" Url="html/227095983.htm" />
+    <HelpKINode Title="about BaseUriAttribute class" Url="html/1252778385.htm" />
+    <HelpKINode Title="all members" Url="html/227095983.htm" />
+    <HelpKINode Title="constructor" Url="html/911178475.htm" />
+    <HelpKINode Title="methods" Url="html/464958294.htm" />
+    <HelpKINode Title="properties" Url="html/1470392934.htm" />
+  </HelpKINode>
+  <HelpKINode Title="BaseUriAttribute.BaseUri property" Url="html/1692908221.htm" />
+  <HelpKINode Title="BaseUriAttribute.BaseUriAttribute constructor" Url="html/911178475.htm" />
+  <HelpKINode Title="Client property" Url="html/1756473361.htm" />
+  <HelpKINode Title="Configure method" Url="html/1148171596.htm" />
+  <HelpKINode Title="Delete method" Url="html/1017211246.htm" />
+  <HelpKINode Title="ElementType property" Url="html/1067221282.htm" />
+  <HelpKINode Title="Expression property" Url="html/1167781005.htm" />
+  <HelpKINode Title="GetEnumerator method" Url="html/1578913904.htm" />
+  <HelpKINode Title="NetClient.Rest namespace" Url="html/1603970084.htm" />
+  <HelpKINode Title="NetClient.Rest.BaseUriAttribute class">
+    <HelpKINode Title="BaseUriAttribute Class" Url="html/1252778385.htm" />
+    <HelpKINode Title="BaseUriAttribute Members" Url="html/227095983.htm" />
+  </HelpKINode>
+  <HelpKINode Title="NetClient.Rest.Resource(Of T) class">
+    <HelpKINode Title="Resource(T) Class" Url="html/832583994.htm" />
+    <HelpKINode Title="Resource(T) Members" Url="html/1610600250.htm" />
+  </HelpKINode>
+  <HelpKINode Title="NetClient.Rest.Resource&lt;T&gt; class">
+    <HelpKINode Title="Resource(T) Class" Url="html/832583994.htm" />
+    <HelpKINode Title="Resource(T) Members" Url="html/1610600250.htm" />
+  </HelpKINode>
+  <HelpKINode Title="NetClient.Rest.ResourceSettings class">
+    <HelpKINode Title="ResourceSettings Class" Url="html/1294006137.htm" />
+    <HelpKINode Title="ResourceSettings Members" Url="html/461874178.htm" />
+  </HelpKINode>
+  <HelpKINode Title="NetClient.Rest.RestClient class">
+    <HelpKINode Title="RestClient Class" Url="html/1843050942.htm" />
+    <HelpKINode Title="RestClient Members" Url="html/1588700364.htm" />
+  </HelpKINode>
+  <HelpKINode Title="NetClient.Rest.Route class">
+    <HelpKINode Title="Route Class" Url="html/813405691.htm" />
+    <HelpKINode Title="Route Members" Url="html/151847104.htm" />
+  </HelpKINode>
+  <HelpKINode Title="NetClient.Rest.RouteAttribute class">
+    <HelpKINode Title="RouteAttribute Class" Url="html/1554776830.htm" />
+    <HelpKINode Title="RouteAttribute Members" Url="html/785365680.htm" />
+  </HelpKINode>
+  <HelpKINode Title="NetClient.Rest.SerializerSettingsAttribute class">
+    <HelpKINode Title="SerializerSettingsAttribute Class" Url="html/2068115112.htm" />
+    <HelpKINode Title="SerializerSettingsAttribute Members" Url="html/897399143.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Nodes property" Url="html/340667890.htm" />
+  <HelpKINode Title="OnError property">
+    <HelpKINode Title="OnError Property " Url="html/106770206.htm" />
+    <HelpKINode Title="OnError Property " Url="html/1088587045.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Parameters property" Url="html/1291892969.htm" />
+  <HelpKINode Title="Provider property" Url="html/680386843.htm" />
+  <HelpKINode Title="Resource(Of T) class">
+    <HelpKINode Title="Resource(T) Class" Url="html/832583994.htm" />
+    <HelpKINode Title="Resource(T) Members" Url="html/1610600250.htm" />
+    <HelpKINode Title="about Resource(Of T) class" Url="html/832583994.htm" />
+    <HelpKINode Title="all members" Url="html/1610600250.htm" />
+    <HelpKINode Title="constructor" Url="html/1415541958.htm" />
+    <HelpKINode Title="methods" Url="html/1902530137.htm" />
+    <HelpKINode Title="properties" Url="html/2092334663.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Resource(Of T).Add method" Url="html/1451617621.htm" />
+  <HelpKINode Title="Resource(Of T).Client property" Url="html/1756473361.htm" />
+  <HelpKINode Title="Resource(Of T).Delete method" Url="html/1017211246.htm" />
+  <HelpKINode Title="Resource(Of T).ElementType property" Url="html/1067221282.htm" />
+  <HelpKINode Title="Resource(Of T).Expression property" Url="html/1167781005.htm" />
+  <HelpKINode Title="Resource(Of T).GetEnumerator method" Url="html/1578913904.htm" />
+  <HelpKINode Title="Resource(Of T).OnError property" Url="html/106770206.htm" />
+  <HelpKINode Title="Resource(Of T).Provider property" Url="html/680386843.htm" />
+  <HelpKINode Title="Resource(Of T).Resource constructor" Url="html/1415541958.htm" />
+  <HelpKINode Title="Resource(Of T).Settings property" Url="html/2019495157.htm" />
+  <HelpKINode Title="Resource&lt;T&gt; class">
+    <HelpKINode Title="Resource(T) Class" Url="html/832583994.htm" />
+    <HelpKINode Title="Resource(T) Members" Url="html/1610600250.htm" />
+    <HelpKINode Title="about Resource&lt;T&gt; class" Url="html/832583994.htm" />
+    <HelpKINode Title="all members" Url="html/1610600250.htm" />
+    <HelpKINode Title="constructor" Url="html/1415541958.htm" />
+    <HelpKINode Title="methods" Url="html/1902530137.htm" />
+    <HelpKINode Title="properties" Url="html/2092334663.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Resource&lt;T&gt;.Add method" Url="html/1451617621.htm" />
+  <HelpKINode Title="Resource&lt;T&gt;.Client property" Url="html/1756473361.htm" />
+  <HelpKINode Title="Resource&lt;T&gt;.Delete method" Url="html/1017211246.htm" />
+  <HelpKINode Title="Resource&lt;T&gt;.ElementType property" Url="html/1067221282.htm" />
+  <HelpKINode Title="Resource&lt;T&gt;.Expression property" Url="html/1167781005.htm" />
+  <HelpKINode Title="Resource&lt;T&gt;.GetEnumerator method" Url="html/1578913904.htm" />
+  <HelpKINode Title="Resource&lt;T&gt;.OnError property" Url="html/106770206.htm" />
+  <HelpKINode Title="Resource&lt;T&gt;.Provider property" Url="html/680386843.htm" />
+  <HelpKINode Title="Resource&lt;T&gt;.Resource constructor" Url="html/1415541958.htm" />
+  <HelpKINode Title="Resource&lt;T&gt;.Settings property" Url="html/2019495157.htm" />
+  <HelpKINode Title="ResourceSettings class">
+    <HelpKINode Title="ResourceSettings Class" Url="html/1294006137.htm" />
+    <HelpKINode Title="ResourceSettings Members" Url="html/461874178.htm" />
+    <HelpKINode Title="about ResourceSettings class" Url="html/1294006137.htm" />
+    <HelpKINode Title="all members" Url="html/461874178.htm" />
+    <HelpKINode Title="methods" Url="html/1351782768.htm" />
+    <HelpKINode Title="properties" Url="html/1768204988.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ResourceSettings.BaseUri property" Url="html/1715432400.htm" />
+  <HelpKINode Title="ResourceSettings.Configure method" Url="html/1148171596.htm" />
+  <HelpKINode Title="ResourceSettings.Routes property" Url="html/1197643787.htm" />
+  <HelpKINode Title="ResourceSettings.SerializerSettings property" Url="html/784374097.htm" />
+  <HelpKINode Title="RestClient class">
+    <HelpKINode Title="RestClient Class" Url="html/1843050942.htm" />
+    <HelpKINode Title="RestClient Members" Url="html/1588700364.htm" />
+    <HelpKINode Title="about RestClient class" Url="html/1843050942.htm" />
+    <HelpKINode Title="all members" Url="html/1588700364.htm" />
+    <HelpKINode Title="constructor" Url="html/274915272.htm" />
+    <HelpKINode Title="methods" Url="html/2068780171.htm" />
+    <HelpKINode Title="properties" Url="html/728626397.htm" />
+  </HelpKINode>
+  <HelpKINode Title="RestClient.OnError property" Url="html/1088587045.htm" />
+  <HelpKINode Title="RestClient.RestClient constructor" Url="html/274915272.htm" />
+  <HelpKINode Title="RestClient.SaveChangesAsync method" Url="html/169116847.htm" />
+  <HelpKINode Title="Route class">
+    <HelpKINode Title="Route Class" Url="html/813405691.htm" />
+    <HelpKINode Title="Route Members" Url="html/151847104.htm" />
+    <HelpKINode Title="about Route class" Url="html/813405691.htm" />
+    <HelpKINode Title="all members" Url="html/151847104.htm" />
+    <HelpKINode Title="methods" Url="html/1537449901.htm" />
+    <HelpKINode Title="properties" Url="html/920039517.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Route property" Url="html/846940164.htm" />
+  <HelpKINode Title="Route.Nodes property" Url="html/340667890.htm" />
+  <HelpKINode Title="Route.Parameters property" Url="html/1291892969.htm" />
+  <HelpKINode Title="Route.Templates property" Url="html/916498692.htm" />
+  <HelpKINode Title="RouteAttribute class">
+    <HelpKINode Title="RouteAttribute Class" Url="html/1554776830.htm" />
+    <HelpKINode Title="RouteAttribute Members" Url="html/785365680.htm" />
+    <HelpKINode Title="about RouteAttribute class" Url="html/1554776830.htm" />
+    <HelpKINode Title="all members" Url="html/785365680.htm" />
+    <HelpKINode Title="constructor" Url="html/165696825.htm" />
+    <HelpKINode Title="methods" Url="html/251535571.htm" />
+    <HelpKINode Title="properties" Url="html/1000095863.htm" />
+  </HelpKINode>
+  <HelpKINode Title="RouteAttribute.Route property" Url="html/846940164.htm" />
+  <HelpKINode Title="RouteAttribute.RouteAttribute constructor" Url="html/165696825.htm" />
+  <HelpKINode Title="Routes property" Url="html/1197643787.htm" />
+  <HelpKINode Title="SaveChangesAsync method" Url="html/169116847.htm" />
+  <HelpKINode Title="SerializerSettings property">
+    <HelpKINode Title="SerializerSettings Property " Url="html/784374097.htm" />
+    <HelpKINode Title="SerializerSettings Property " Url="html/325391994.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SerializerSettingsAttribute class">
+    <HelpKINode Title="SerializerSettingsAttribute Class" Url="html/2068115112.htm" />
+    <HelpKINode Title="SerializerSettingsAttribute Members" Url="html/897399143.htm" />
+    <HelpKINode Title="about SerializerSettingsAttribute class" Url="html/2068115112.htm" />
+    <HelpKINode Title="all members" Url="html/897399143.htm" />
+    <HelpKINode Title="constructor" Url="html/1867726916.htm" />
+    <HelpKINode Title="methods" Url="html/47395595.htm" />
+    <HelpKINode Title="properties" Url="html/92177080.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SerializerSettingsAttribute.SerializerSettings property" Url="html/325391994.htm" />
+  <HelpKINode Title="SerializerSettingsAttribute.SerializerSettingsAttribute constructor" Url="html/1867726916.htm" />
+  <HelpKINode Title="Settings property" Url="html/2019495157.htm" />
+  <HelpKINode Title="Templates property" Url="html/916498692.htm" />
+</HelpKI>
